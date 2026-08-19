@@ -20,7 +20,8 @@ const PrintableCertificate = forwardRef(({ site }, ref) => {
           />
           <div>
             <h1 className="text-3xl font-bold text-slate-900">Mona Interior Studio</h1>
-            <p className="text-slate-600">Professional Interior Design Services</p>
+            <p className="text-xs text-slate-600">No.378, Kagithapuram, S.kolathur, Chennai-600129</p>
+            <p className="text-xs text-slate-600">Phone: 9176093482 | Email: monainteriorsstudio@gmail.com</p>
           </div>
         </div>
         <div className="text-right flex flex-col justify-center">

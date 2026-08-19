@@ -1,6 +1,8 @@
 # Node.js
 **/node_modules/
 **/dist/
+**/dist-electron/
+**/release/
 **/build/
 
 # .NET

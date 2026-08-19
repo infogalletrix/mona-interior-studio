@@ -24,7 +24,7 @@ const PrintableQuotation = forwardRef(({ data }, ref) => {
           <img src="/logo.png" alt="Logo" className="w-20 h-20 object-contain rounded-lg" onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }} />
           <div>
             <h1 className="text-3xl font-bold text-gray-900 uppercase">Mona Interior Studio</h1>
-            <p>Professional Interior Design Services</p>
+            <p>Interior Design & Services</p>
           </div>
         </div>
         <div className="text-right">
@@ -42,9 +42,11 @@ const PrintableQuotation = forwardRef(({ data }, ref) => {
         <div className="w-1/2">
           <p className="font-bold text-xs uppercase text-gray-700">From:</p>
           <p className="font-bold text-base">Mona Interior Studio</p>
-          <p>Professional Interior Design & Services</p>
-          <p>Phone: +91 98765 43210</p>
-          <p>Email: contact@monastudio.com</p>
+          <p>No.378, Kagithapuram, S.kolathur</p>
+          <p>Chennai-600129</p>
+          <p>Phone: 9176093482</p>
+          <p>Email: monainteriorsstudio@gmail.com</p>
+          {!isNonGST && <p>GSTIN: 33CRFPK5712H1ZZ</p>}
         </div>
         <div className="w-1/2 text-right">
           <p className="font-bold text-xs uppercase text-gray-700">To:</p>

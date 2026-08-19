@@ -5,25 +5,25 @@
 namespace Mona_Interior.Migrations
 {
     /// <inheritdoc />
-    public partial class AddMaintenanceToSite : Migration
+    public partial class AddExpenseQty : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Maintenance",
-                table: "Sites",
-                type: "longtext",
-                nullable: false)
-                .Annotation("MySql:CharSet", "utf8mb4");
+                name: "Qty",
+                table: "Expenses",
+                type: "TEXT",
+                nullable: false,
+                defaultValue: "");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Maintenance",
-                table: "Sites");
+                name: "Qty",
+                table: "Expenses");
         }
     }
 }

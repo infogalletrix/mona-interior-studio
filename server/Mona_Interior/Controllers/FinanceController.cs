@@ -34,7 +34,7 @@ namespace Mona_Interior.Controllers
                 .ToList();
 
             int maxSerial = currentMonthNums.Count > 0 ? currentMonthNums.Max() : 0;
-            return maxSerial >= 9999 ? 1 : maxSerial + 1;
+            return maxSerial + 1;
         }
 
         // GET /api/finance/invoices/next-number  (preview only — does NOT reserve a number)
@@ -184,7 +184,8 @@ namespace Mona_Interior.Controllers
                 description = e.Description,
                 amount = e.Amount,
                 clientId = e.ClientId,
-                type = e.Type
+                type = e.Type,
+                qty = e.Qty
             });
             return Ok(result);
         }
@@ -203,7 +204,8 @@ namespace Mona_Interior.Controllers
                 Description = dto.Description,
                 Amount = dto.Amount,
                 ClientId = dto.ClientId,
-                Type = dto.Type
+                Type = dto.Type,
+                Qty = dto.Qty
             };
             _db.Expenses.Add(exp);
             await _db.SaveChangesAsync();
@@ -230,6 +232,7 @@ namespace Mona_Interior.Controllers
             exp.Amount = dto.Amount;
             exp.ClientId = dto.ClientId;
             exp.Type = dto.Type;
+            exp.Qty = dto.Qty;
 
             await _db.SaveChangesAsync();
             return Ok(new { message = "Expense updated" });
@@ -427,7 +430,7 @@ namespace Mona_Interior.Controllers
                 .ToList();
 
             int maxSerial = currentMonthNums.Count > 0 ? currentMonthNums.Max() : 0;
-            return maxSerial >= 9999 ? 1 : maxSerial + 1;
+            return maxSerial + 1;
         }
 
         [HttpGet("receipts/next-number")]

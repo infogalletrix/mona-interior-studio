@@ -336,7 +336,9 @@ export default function ReceiptPage() {
           <img src="/logo.png" alt="Logo" className="w-16 h-16 object-contain rounded-lg" onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }} />
           <div>
             <h1 className="text-2xl font-black uppercase tracking-tighter text-gray-900">Mona Interior Studio</h1>
-            <p className="font-bold text-gray-600 text-sm">Official Payment Receipt</p>
+            <p className="font-bold text-gray-600 text-[10px]">No.378, Kagithapuram, S.kolathur, Chennai-129</p>
+            <p className="font-bold text-gray-600 text-[10px]">Phone: 9176093482 | Email: monainteriorsstudio@gmail.com</p>
+            <p className="font-bold text-gray-600 text-sm mt-1">Official Payment Receipt</p>
             <div className="mt-2">
                <span className="px-2 py-0.5 rounded border border-gray-600 text-[10px] font-black uppercase tracking-widest text-gray-800">
                  Status: {data.status}

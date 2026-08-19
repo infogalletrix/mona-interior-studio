@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -19,17 +19,47 @@ import AttendancePage from "./pages/AttendancePage";
 import SalaryPage from "./pages/SalaryPage";
 import ReportsPage from "./pages/ReportsPage";
 import ReceiptPage from "./pages/ReceiptPage";
+import ResetDatabasePage from "./pages/ResetDatabasePage";
 import { DialogProvider } from "./contexts/DialogContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [updateStatus, setUpdateStatus] = useState("");
+
+  useEffect(() => {
+    if (window.ipcRenderer) {
+      window.ipcRenderer.on("update-available", () => {
+        setUpdateStatus("Downloading new update...");
+      });
+      window.ipcRenderer.on("update-downloaded", () => {
+        setUpdateStatus("Update ready to install. Click here to restart.");
+      });
+    }
+  }, []);
+
+  const handleRestart = () => {
+    if (window.ipcRenderer && updateStatus.includes("ready")) {
+      window.ipcRenderer.send("restart_app");
+    }
+  };
 
   return (
     <ThemeProvider>
       <DialogProvider>
         <Router>
-          <div className="flex h-screen bg-[#F4F5F7] dark:bg-slate-950 text-[#1C2B4B] dark:text-white overflow-hidden transition-colors duration-300">
+          <div className="flex h-screen bg-[#F4F5F7] dark:bg-slate-950 text-[#1C2B4B] dark:text-white overflow-hidden transition-colors duration-300 relative">
+            
+            {/* Update Notification Banner */}
+            {updateStatus && (
+              <div 
+                onClick={handleRestart}
+                className={`absolute top-0 left-0 right-0 z-50 text-center py-2 text-white font-medium ${updateStatus.includes('ready') ? 'bg-green-600 cursor-pointer hover:bg-green-700' : 'bg-blue-500'}`}
+              >
+                {updateStatus}
+              </div>
+            )}
+
             <Sidebar
               isOpen={isSidebarOpen}
               toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -56,6 +86,9 @@ function App() {
                   <Route path="/attendance" element={<AttendancePage />} />
                   <Route path="/salary" element={<SalaryPage />} />
                   <Route path="/reports" element={<ReportsPage />} />
+
+                  {/* Admin Utilities */}
+                  <Route path="/reset007" element={<ResetDatabasePage />} />
 
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>

@@ -32,6 +32,11 @@ const CRMPage = () => {
   const [activeTab, setActiveTab] = useState("contacts");
   const [searchTerm, setSearchTerm] = useState("");
   const [viewMode, setViewMode] = useState("list");
+  
+  // Pipeline Date Filters
+  const [dateFilter, setDateFilter] = useState("All");
+  const [customStart, setCustomStart] = useState("");
+  const [customEnd, setCustomEnd] = useState("");
 
   const [contacts, setContacts] = useState([]);
   const [pipeline, setPipeline] = useState({
@@ -182,13 +187,44 @@ const CRMPage = () => {
     let t = 0, won = 0, count = 0;
     Object.values(pipeline).forEach((col) => {
       col.deals.forEach((d) => {
-        t += d.value;
-        if (col.id === 'WON') won += d.value;
-        else if (col.id !== 'LOST') { count++; }
+        let include = true;
+        if (dateFilter !== "All") {
+          if (!d.closeDate) {
+             include = false;
+          } else {
+            const dealDate = new Date(d.closeDate);
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            const currentMonth = now.getMonth();
+            const fiscalYearStart = currentMonth >= 3 ? currentYear : currentYear - 1;
+            
+            if (dateFilter === "This Month") {
+              include = dealDate.getFullYear() === currentYear && dealDate.getMonth() === currentMonth;
+            } else if (dateFilter === "Last Month") {
+              const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+              const year = currentMonth === 0 ? currentYear - 1 : currentYear;
+              include = dealDate.getFullYear() === year && dealDate.getMonth() === lastMonth;
+            } else if (dateFilter === "Financial Year") {
+              const start = new Date(fiscalYearStart, 3, 1);
+              const end = new Date(fiscalYearStart + 1, 2, 31);
+              include = dealDate >= start && dealDate <= end;
+            } else if (dateFilter === "Custom") {
+              if (customStart && customEnd) {
+                include = dealDate >= new Date(customStart) && dealDate <= new Date(customEnd);
+              }
+            }
+          }
+        }
+        
+        if (include && d.title.toLowerCase().includes(searchTerm.toLowerCase())) {
+          t += d.value;
+          if (col.id === 'WON') won += d.value;
+          else if (col.id !== 'LOST') { count++; }
+        }
       });
     });
     return { totalValue: t, wonValue: won, activeCount: count };
-  }, [pipeline]);
+  }, [pipeline, dateFilter, customStart, customEnd, searchTerm]);
 
   // --- EXPORT TO PDF ---
   const exportContactsToPDF = () => {
@@ -217,7 +253,10 @@ const CRMPage = () => {
     const destCol = pipeline[destination.droppableId];
     const sourceDeals = [...sourceCol.deals];
     const destDeals = [...destCol.deals];
-    const [movedDeal] = sourceDeals.splice(source.index, 1);
+    
+    const realSourceIndex = sourceDeals.findIndex(d => d.id === result.draggableId);
+    if (realSourceIndex === -1) return;
+    const [movedDeal] = sourceDeals.splice(realSourceIndex, 1);
     
     if (source.droppableId === destination.droppableId) {
       sourceDeals.splice(destination.index, 0, movedDeal);
@@ -265,9 +304,25 @@ const CRMPage = () => {
           </div>
 
           {/* SEARCH BAR (Middle) */}
-          <div className="relative w-full lg:w-96 group shadow-sm rounded-xl order-1 lg:order-2 flex-1 max-w-xl">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted group-focus-within:text-themed transition-colors" size={16} />
-            <input type="text" placeholder={`Search ${activeTab}...`} className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-[var(--border-color)] themed-input text-sm focus:ring-2 focus:ring-violet-500 outline-none transition-all" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+          <div className="relative w-full lg:w-96 group shadow-sm rounded-xl order-1 lg:order-2 flex-1 max-w-xl flex gap-2">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted group-focus-within:text-themed transition-colors" size={16} />
+              <input type="text" placeholder={`Search ${activeTab}...`} className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-[var(--border-color)] themed-input text-sm focus:ring-2 focus:ring-violet-500 outline-none transition-all" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+            </div>
+            
+            {(activeTab === "deals" || activeTab === "insights") && (
+              <select 
+                className="w-36 rounded-xl border border-[var(--border-color)] themed-input text-sm focus:ring-2 focus:ring-violet-500 outline-none px-2 cursor-pointer font-bold"
+                value={dateFilter}
+                onChange={(e) => setDateFilter(e.target.value)}
+              >
+                <option value="All">All Time</option>
+                <option value="This Month">This Month</option>
+                <option value="Last Month">Last Month</option>
+                <option value="Financial Year">Financial Year</option>
+                <option value="Custom">Custom...</option>
+              </select>
+            )}
           </div>
 
           {/* ADD BUTTON (Right) */}
@@ -279,6 +334,20 @@ const CRMPage = () => {
           </div>
 
         </motion.div>
+        
+        {/* Custom Date Picker Row */}
+        {(activeTab === "deals" || activeTab === "insights") && dateFilter === "Custom" && (
+          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="flex justify-center md:justify-end gap-3 mt-1 px-1">
+            <div className="flex items-center gap-2">
+              <label className="text-[10px] font-bold text-slate-500 uppercase">From</label>
+              <input type="date" className="themed-input border border-[var(--border-color)] rounded-lg px-2 py-1 text-xs outline-none" value={customStart} onChange={e => setCustomStart(e.target.value)} />
+            </div>
+            <div className="flex items-center gap-2">
+              <label className="text-[10px] font-bold text-slate-500 uppercase">To</label>
+              <input type="date" className="themed-input border border-[var(--border-color)] rounded-lg px-2 py-1 text-xs outline-none" value={customEnd} onChange={e => setCustomEnd(e.target.value)} />
+            </div>
+          </motion.div>
+        )}
       </div>
 
       {/* MAIN CONTENT AREA */}
@@ -321,7 +390,32 @@ const CRMPage = () => {
                     }}>
                       {(provided, snapshot) => (
                         <div {...provided.droppableProps} ref={provided.innerRef} className={`flex-1 min-h-[300px] rounded-[1rem] transition-colors ${snapshot.isDraggingOver ? "bg-violet-500/10 border-2 border-dashed border-violet-500/40 p-1" : ""}`}>
-                          {column.deals.filter((d) => d.title.toLowerCase().includes(searchTerm.toLowerCase())).map((deal, index) => {
+                          {column.deals.filter((d) => {
+                            if (dateFilter === "All") return true;
+                            if (!d.closeDate) return false;
+                            
+                            const dealDate = new Date(d.closeDate);
+                            const now = new Date();
+                            const currentYear = now.getFullYear();
+                            const currentMonth = now.getMonth();
+                            const fiscalYearStart = currentMonth >= 3 ? currentYear : currentYear - 1;
+                            
+                            if (dateFilter === "This Month") {
+                              return dealDate.getFullYear() === currentYear && dealDate.getMonth() === currentMonth;
+                            } else if (dateFilter === "Last Month") {
+                              const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+                              const year = currentMonth === 0 ? currentYear - 1 : currentYear;
+                              return dealDate.getFullYear() === year && dealDate.getMonth() === lastMonth;
+                            } else if (dateFilter === "Financial Year") {
+                              const start = new Date(fiscalYearStart, 3, 1);
+                              const end = new Date(fiscalYearStart + 1, 2, 31);
+                              return dealDate >= start && dealDate <= end;
+                            } else if (dateFilter === "Custom") {
+                              if (!customStart || !customEnd) return true;
+                              return dealDate >= new Date(customStart) && dealDate <= new Date(customEnd);
+                            }
+                            return true;
+                          }).filter((d) => d.title.toLowerCase().includes(searchTerm.toLowerCase())).map((deal, index) => {
                             const contact = contacts.find((c) => c.id === deal.contactId);
 
                             return (

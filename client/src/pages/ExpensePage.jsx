@@ -144,7 +144,7 @@ export default function ExpensePage() {
     try {
       const res = await fetch('/api/finance/expenses');
       const data = await res.json();
-      setExpenseHistory(data.map(e => ({ ...e, cost: e.amount, expenseType: e.type, client: e.clientId, material: e.description })));
+      setExpenseHistory(data.map(e => ({ ...e, cost: e.amount, expenseType: e.type, client: e.clientId, material: e.description, qty: e.qty })));
     } catch(err) { console.error(err); }
   };
 
@@ -187,7 +187,8 @@ export default function ExpensePage() {
             description: item.material, 
             amount: cost, 
             clientId: actualType === "Client" ? bulkClient.toString() : "", 
-            type: actualType 
+            type: actualType,
+            qty: item.qty
           })
         });
       }
@@ -236,7 +237,8 @@ export default function ExpensePage() {
         description: entry.expenseType === "Client" ? entry.material : entry.description, 
         amount: entry.cost, 
         clientId: entry.client ? entry.client.toString() : "", 
-        type: entry.expenseType 
+        type: entry.expenseType,
+        qty: entry.qty
       };
 
       if (editingExpenseId) {
@@ -280,7 +282,7 @@ export default function ExpensePage() {
       expenseType: expense.expenseType,
       client: expense.client || "",
       material: expense.expenseType === "Client" ? expense.material : "",
-      qty: "", // Qty not stored in backend, reset
+      qty: expense.qty || "",
       cost: expense.cost.toString(),
       category: expense.category || OVERHEAD_CATEGORIES[0],
       description: expense.expenseType !== "Client" ? expense.description : "",

@@ -32,7 +32,7 @@ export default function QuotationPage() {
 
   const [quoteId, setQuoteId] = useState(null);
   const [quoteNo, setQuoteNo] = useState("");
-  const [quoteDate, setQuoteDate] = useState(new Date().toISOString().split('T')[0]);
+  const [quoteDate, setQuoteDate] = useState(new Date().toLocaleDateString('en-CA'));
 
 
 
@@ -68,8 +68,17 @@ export default function QuotationPage() {
       setWorkDescription(d.workDescription || "");
       setBillType(d.billType || "GST");
       setQuoteId(d.quoteId || null);
-      if (d.quoteDate) setQuoteDate(d.quoteDate);
-      if (d.quoteNo) setQuoteNo(d.quoteNo);
+      if (d.quoteId && d.quoteDate) {
+        setQuoteDate(d.quoteDate);
+        setQuoteNo(d.quoteNo || "");
+      } else {
+        const liveDate = new Date().toLocaleDateString('en-CA');
+        setQuoteDate(liveDate);
+        fetch(`/api/quotations/next-number?date=${liveDate}`)
+          .then(res => res.json())
+          .then(data => { if (data && data.nextNumber) setQuoteNo(data.nextNumber); })
+          .catch(() => setQuoteNo(""));
+      }
     } else {
       // Clear for a new session if no data
       setItems([{ id: Date.now(), description: "", unit: "Sq.Ft", area: "", rate: "", amount: 0 }]);
@@ -81,8 +90,9 @@ export default function QuotationPage() {
       setBillType("GST");
       setQuoteId(null);
       
-      // Fetch the next quotation number from the backend
-      fetch(`/api/quotations/next-number?date=${quoteDate}`)
+      const liveDate = new Date().toLocaleDateString('en-CA');
+      setQuoteDate(liveDate);
+      fetch(`/api/quotations/next-number?date=${liveDate}`)
         .then(res => res.json())
         .then(data => {
           if (data && data.nextNumber) {
@@ -307,11 +317,12 @@ export default function QuotationPage() {
           setItems([{ id: Date.now(), description: "", unit: "Sq.Ft", area: "", rate: "", amount: 0 }]);
           setClientName("");
           setOrganizationName("");
-          setClientAddress("");
           setProjectTitle("");
           setWorkDescription("");
           setQuoteId(null);
-          fetch(`/api/quotations/next-number?date=${quoteDate}`)
+          const todayDate = new Date().toLocaleDateString('en-CA');
+          setQuoteDate(todayDate);
+          fetch(`/api/quotations/next-number?date=${todayDate}`)
             .then(res => res.json())
             .then(data => { if (data && data.nextNumber) setQuoteNo(data.nextNumber); })
             .catch(() => setQuoteNo(""));
@@ -374,6 +385,16 @@ export default function QuotationPage() {
         setClientName("");
         setOrganizationName("");
         setClientAddress("");
+        setProjectTitle("");
+        setWorkDescription("");
+        setQuoteId(null);
+        
+        const todayDate = new Date().toLocaleDateString('en-CA');
+        setQuoteDate(todayDate);
+        fetch(`/api/quotations/next-number?date=${todayDate}`)
+          .then(res => res.json())
+          .then(data => { if (data && data.nextNumber) setQuoteNo(data.nextNumber); })
+          .catch(() => setQuoteNo(""));
       }
     });
   };

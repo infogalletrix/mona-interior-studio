@@ -87,6 +87,16 @@ export default function BillingPage() {
       setGstNumber(d.gstNumber || "");
       setWorkOrderId(d.workOrderId || "");
       setInvoiceId(d.invoiceId || "");
+      if (d.invoiceId && d.invoiceDate) {
+        setInvoiceDate(d.invoiceDate);
+        if (d.invoiceNo) setInvoiceNo(d.invoiceNo);
+      } else {
+        setInvoiceDate(new Date().toLocaleDateString("en-GB"));
+        fetch("/api/finance/invoices/next-number")
+          .then(res => res.json())
+          .then(data => { if (data && data.nextNumber) setInvoiceNo(data.nextNumber); })
+          .catch(() => setInvoiceNo(""));
+      }
     } else {
       // Clear for a new session if no data
       setItems([{ id: Date.now(), work: "", unit: "Sq.Ft", area: "", price: "", gstPerc: 18, taxableAmount: 0, gstAmount: 0, amount: 0 }]);
@@ -99,11 +109,16 @@ export default function BillingPage() {
       setReceivedAmount(0);
       setIsEditMode(false);
       setEditBadge("");
-      setInvoiceNo(""); // Number assigned by backend at save time — no pre-fetch
       setOrganizationName("");
       setGstNumber("");
       setWorkOrderId("");
       setInvoiceId("");
+      setInvoiceDate(new Date().toLocaleDateString("en-GB"));
+      
+      fetch("/api/finance/invoices/next-number")
+        .then(res => res.json())
+        .then(data => { if (data && data.nextNumber) setInvoiceNo(data.nextNumber); })
+        .catch(() => setInvoiceNo(""));
     }
     localStorage.setItem("active_billing_session", activeSessionId);
   }, [activeSessionId]);
@@ -192,6 +207,7 @@ export default function BillingPage() {
       setEditBadge("");
       setInvoiceId("");
       setWorkOrderId("");
+      setInvoiceDate(new Date().toLocaleDateString("en-GB"));
       return;
     }
     const newSessions = sessions.filter((s) => s.id !== id);
@@ -660,6 +676,7 @@ export default function BillingPage() {
           setGstNumber("");
           setWorkOrderId("");
           setInvoiceId("");
+          setInvoiceDate(new Date().toLocaleDateString("en-GB"));
           
           fetch("/api/finance/invoices/next-number")
             .then((res) => res.json())
@@ -760,6 +777,12 @@ export default function BillingPage() {
         setOrganizationName("");
         setGstNumber("");
         setWorkOrderId("");
+        setInvoiceDate(new Date().toLocaleDateString("en-GB"));
+        
+        fetch("/api/finance/invoices/next-number")
+          .then((res) => res.json())
+          .then((data) => setInvoiceNo(data.nextNumber))
+          .catch(() => setInvoiceNo(""));
       }
     });
   };

@@ -22,5 +22,7 @@ namespace Mona_Interior.models
 
         // "general" | "client-specific"
         public string Type { get; set; } = "general";
+
+        public string Qty { get; set; } = string.Empty;
     }
 }

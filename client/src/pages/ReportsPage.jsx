@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { 
-  FileText, FileSpreadsheet, Download, 
+  FileText, FileSpreadsheet, Download, ChevronDown,
   TrendingUp, TrendingDown, Users, Building, PieChart as PieChartIcon, Activity
 } from "lucide-react";
 import jsPDF from "jspdf";
@@ -227,13 +227,13 @@ const ReportsPage = () => {
                 <p className="text-xs font-medium mb-8 text-white/70">Select a dataset to compile into a downloadable document.</p>
 
                 <div className="space-y-6 relative z-10">
-                  <div>
+                  <div className="relative">
                     <label className="text-[10px] font-black text-white/60 uppercase tracking-widest mb-2 block">Select Dataset</label>
                     <select
-                      className={`w-full rounded-xl p-3 text-sm font-bold outline-none transition-all cursor-pointer appearance-none ${
+                      className={`w-full rounded-xl p-3 pr-10 text-sm font-bold outline-none transition-all cursor-pointer appearance-none ${
                         t.isDark
-                          ? "bg-slate-800/80 border border-white/10 text-white focus:ring-2 focus:ring-violet-500 [&>option]:bg-slate-900"
-                          : "bg-white/20 border border-white/30 text-white focus:ring-2 focus:ring-white/50 [&>option]:bg-orange-600 [&>option]:text-white"
+                          ? "bg-slate-800/80 border border-white/10 text-white focus:ring-2 focus:ring-violet-500 [&_optgroup]:bg-slate-900 [&_option]:bg-slate-900 [&_optgroup]:text-white [&_option]:text-white"
+                          : "bg-white/20 border border-white/30 text-white focus:ring-2 focus:ring-white/50 [&_optgroup]:bg-white [&_option]:bg-white [&_optgroup]:text-slate-900 [&_option]:text-slate-900"
                       }`}
                       value={selectedReport}
                       onChange={(e) => setSelectedReport(e.target.value)}
@@ -246,6 +246,9 @@ const ReportsPage = () => {
                         </optgroup>
                       ))}
                     </select>
+                    <div className="absolute right-3 top-[34px] pointer-events-none text-white/70">
+                      <ChevronDown size={18} />
+                    </div>
                   </div>
 
                   <div className="pt-4 border-t border-white/20 space-y-3">

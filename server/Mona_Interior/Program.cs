@@ -24,11 +24,10 @@ builder.Services.AddCors(options =>
     });
 });
 
-// 3. MYSQL via Pomelo EF Core
+// 3. SQLITE via EF Core
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-var serverVersion = ServerVersion.Parse("8.0.36-mysql");
 builder.Services.AddDbContext<MonainteriorDbContext>(options =>
-    options.UseMySql(connectionString, serverVersion));
+    options.UseSqlite(connectionString));
 
 // 4. CONFIGURE PORT 5000
 
@@ -74,5 +73,25 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowFrontend");
 app.UseAuthorization();
 app.MapControllers();
+
+app.MapPost("/api/reset-database", async (string password, MonainteriorDbContext dbContext, IConfiguration config) =>
+{
+    var securePassword = config["ResetPassword"] ?? "SecureReset123!";
+    if (password != securePassword)
+    {
+        return Results.Unauthorized();
+    }
+
+    try
+    {
+        await dbContext.Database.EnsureDeletedAsync();
+        await dbContext.Database.MigrateAsync();
+        return Results.Ok(new { message = "Database reset successfully." });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Error: {ex.Message}");
+    }
+});
 
 app.Run();

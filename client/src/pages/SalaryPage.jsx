@@ -24,9 +24,15 @@ export default function SalaryPage() {
   const [employees, setEmployees] = useState([]);
   const [payrollHistory, setPayrollHistory] = useState([]);
   
+  const currentMonthIdx = today.getMonth();
+  const isReleased = today.getDate() > 25;
+  const initialMaxMonthIdx = isReleased ? currentMonthIdx : currentMonthIdx - 1;
+  const defaultYear = initialMaxMonthIdx < 0 ? today.getFullYear() - 1 : today.getFullYear();
+  const defaultMonthIdx = initialMaxMonthIdx < 0 ? 11 : initialMaxMonthIdx;
+
   const [selectedEmployee, setSelectedEmployee] = useState(null);
-  const [selectedMonth, setSelectedMonth] = useState(MONTHS[today.getMonth()]);
-  const [selectedYear, setSelectedYear] = useState(today.getFullYear());
+  const [selectedMonth, setSelectedMonth] = useState(MONTHS[defaultMonthIdx]);
+  const [selectedYear, setSelectedYear] = useState(defaultYear);
   const [searchTerm, setSearchTerm] = useState("");
   const [printData, setPrintData] = useState(null);
   const [viewPayslip, setViewPayslip] = useState(null); // payroll entry to preview
@@ -35,6 +41,41 @@ export default function SalaryPage() {
   const [actionType, setActionType] = useState("Salary"); // "Salary" | "Advance"
   const [historyTab, setHistoryTab] = useState("Salary"); // "Salary" | "Advance"
   const [editPayrollId, setEditPayrollId] = useState(null);
+
+  // Form Payroll Period Logic
+  const currMonthIdx = today.getMonth();
+  const currYear = today.getFullYear();
+  const prevMonthIdx = currMonthIdx === 0 ? 11 : currMonthIdx - 1;
+  const prevYear = currMonthIdx === 0 ? currYear - 1 : currYear;
+  
+  const defaultPayrollOptions = [
+    { label: `${MONTHS[currMonthIdx]} ${currYear}`, month: MONTHS[currMonthIdx], year: currYear },
+    { label: `${MONTHS[prevMonthIdx]} ${prevYear}`, month: MONTHS[prevMonthIdx], year: prevYear }
+  ];
+  const defaultFormPeriod = today.getDate() > 25 ? defaultPayrollOptions[0] : defaultPayrollOptions[1];
+  const [formPayrollPeriod, setFormPayrollPeriod] = useState(defaultFormPeriod);
+  
+  const formPeriodOptions = [...defaultPayrollOptions];
+  if (!formPeriodOptions.some(o => o.label === formPayrollPeriod.label)) {
+    formPeriodOptions.push(formPayrollPeriod);
+  }
+
+  // Dynamic Available Months based on 25th release rule
+  const getAvailableMonths = () => {
+    const sYear = parseInt(selectedYear, 10);
+    const tYear = today.getFullYear();
+    if (sYear < tYear) return MONTHS;
+    if (sYear > tYear) return [];
+    return MONTHS.slice(0, initialMaxMonthIdx + 1);
+  };
+  const availableMonths = getAvailableMonths();
+
+  useEffect(() => {
+    const validMonths = getAvailableMonths();
+    if (validMonths.length > 0 && !validMonths.includes(selectedMonth)) {
+      setSelectedMonth(validMonths[validMonths.length - 1]);
+    }
+  }, [selectedYear]);
 
   // Load Data
   const fetchEmployees = async () => {
@@ -105,8 +146,8 @@ export default function SalaryPage() {
         const lop = parseFloat(salForm.lopDays || 0);
         
         if (lop > 0) {
-          const monthIdx = MONTHS.indexOf(selectedMonth);
-          const daysInMonth = new Date(selectedYear, monthIdx + 1, 0).getDate();
+          const monthIdx = MONTHS.indexOf(formPayrollPeriod.month);
+          const daysInMonth = new Date(formPayrollPeriod.year, monthIdx + 1, 0).getDate();
           const dailyRate = baseMonthly / daysInMonth;
           calcBasic = baseMonthly - (dailyRate * lop);
         } else {
@@ -120,7 +161,7 @@ export default function SalaryPage() {
         advanceDeduction: selectedEmployee.advanceBalance > 0 ? selectedEmployee.advanceBalance.toString() : "0"
       }));
     }
-  }, [selectedEmployee, salForm.paidDays, salForm.lopDays, selectedMonth, selectedYear, actionType]);
+  }, [selectedEmployee, salForm.paidDays, salForm.lopDays, formPayrollPeriod, actionType]);
 
   // Salary Calculations
   const basic = parseFloat(salForm.basic || 0);
@@ -131,52 +172,52 @@ export default function SalaryPage() {
   const totalDeductions = advanceDed + otherDed;
   const netPay = totalEarnings - totalDeductions;
 
-  const handleSelectEmployee = async (emp) => {
-    setSelectedEmployee(emp);
-    setActionType("Salary");
-    
-    // Automatically calculate paidDays and otHours based on attendance
+  const calculateAttendance = async (emp, period) => {
     let computedPaidDays = 30; // fallback
     let computedOtHours = 0;
     let computedLopDays = 0;
     try {
-      const monthStr = (MONTHS.indexOf(selectedMonth) + 1).toString().padStart(2, '0');
-      const yearMonth = `${selectedYear}-${monthStr}`;
+      const monthStr = (MONTHS.indexOf(period.month) + 1).toString().padStart(2, '0');
+      const yearMonth = `${period.year}-${monthStr}`;
       
       const res = await fetch(`/api/attendance?employeeId=${emp.id}&month=${yearMonth}`);
       if (res.ok) {
         const attData = await res.json();
+        const daysInMonth = new Date(period.year, MONTHS.indexOf(period.month) + 1, 0).getDate();
         
-        // Total days in the selected month
-        const daysInMonth = new Date(selectedYear, MONTHS.indexOf(selectedMonth) + 1, 0).getDate();
+        const fullAbsentDays = attData.filter(d => d.status?.toLowerCase() === "absent").length;
+        const halfDays = attData.filter(d => d.status?.toLowerCase() === "half-day").length;
+        const fullPresentDays = attData.filter(d => d.status?.toLowerCase() === "present").length;
         
-        // Count absences (Half-Day counts as full day for salary)
-        const absentDays = attData.filter(d => d.status?.toLowerCase() === "absent").length;
-        
-        // Sum Overtime hours
         computedOtHours = attData.reduce((sum, d) => sum + (Number(d.overtime) || 0), 0);
         
         if (emp.salaryType === "Daily") {
-          // For Daily wages, only count days explicitly marked as present or half-day
-          const presentDays = attData.filter(d => 
-            d.status?.toLowerCase() === "present" || d.status?.toLowerCase() === "half-day"
-          ).length;
-          computedPaidDays = presentDays;
+          computedPaidDays = fullPresentDays + (halfDays * 0.5);
         } else {
-          // For Monthly wages, assume full month minus explicitly marked absences
-          computedPaidDays = daysInMonth - absentDays;
-          computedLopDays = absentDays;
+          // Do not calculate LOP days automatically
+          computedLopDays = 0;
+          computedPaidDays = daysInMonth;
         }
       }
     } catch (e) {
-      console.error("Failed to fetch attendance for paidDays calc", e);
+      console.error("Failed to fetch attendance for calc", e);
     }
+    return { paidDays: computedPaidDays, lopDays: computedLopDays, otHours: computedOtHours };
+  };
+
+  const handleSelectEmployee = async (emp) => {
+    setSelectedEmployee(emp);
+    setActionType("Salary");
+    setEditPayrollId(null);
+    setFormPayrollPeriod(defaultFormPeriod);
+    
+    const att = await calculateAttendance(emp, defaultFormPeriod);
 
     setSalForm(f => ({
       ...f,
-      paidDays: computedPaidDays.toString(),
-      lopDays: computedLopDays.toString(),
-      otHours: computedOtHours > 0 ? computedOtHours.toString() : "",
+      paidDays: att.paidDays.toString(),
+      lopDays: att.lopDays.toString(),
+      otHours: att.otHours > 0 ? att.otHours.toString() : "",
       otRate: "",
       otherDeductions: "",
     }));
@@ -184,6 +225,23 @@ export default function SalaryPage() {
       ...f,
       amount: "",
     }));
+  };
+  
+  const handleFormPeriodChange = async (e) => {
+    const lbl = e.target.value;
+    const opt = formPeriodOptions.find(o => o.label === lbl);
+    if (!opt) return;
+    setFormPayrollPeriod(opt);
+    
+    if (selectedEmployee && actionType === "Salary") {
+      const att = await calculateAttendance(selectedEmployee, opt);
+      setSalForm(f => ({
+        ...f,
+        paidDays: att.paidDays.toString(),
+        lopDays: att.lopDays.toString(),
+        otHours: att.otHours > 0 ? att.otHours.toString() : "",
+      }));
+    }
   };
 
   const handleProcessSalary = async (e, shouldPrint = true) => {
@@ -209,8 +267,8 @@ export default function SalaryPage() {
       employeeId: selectedEmployee.id,
       employeeName: selectedEmployee.name,
       role: selectedEmployee.role,
-      month: selectedMonth,
-      year: selectedYear,
+      month: formPayrollPeriod.month,
+      year: formPayrollPeriod.year,
       basic,
       otHours: parseFloat(salForm.otHours || 0),
       otRate: parseFloat(salForm.otRate || 0),
@@ -226,8 +284,8 @@ export default function SalaryPage() {
 
     const payload = {
       employeeId: selectedEmployee.id,
-      month: selectedMonth,
-      year: selectedYear,
+      month: formPayrollPeriod.month,
+      year: formPayrollPeriod.year,
       baseSalary: basic,
       deductions: totalDeductions,
       netPay,
@@ -282,7 +340,7 @@ export default function SalaryPage() {
         setTimeout(() => handlePrint(), 300);
       }
 
-      showDialog({ title: "Success", message: `Salary of ${selectedMonth} ${selectedYear} processed successfully for ${selectedEmployee.name}.`, type: "success" });
+      showDialog({ title: "Success", message: `Salary of ${formPayrollPeriod.month} ${formPayrollPeriod.year} processed successfully for ${selectedEmployee.name}.`, type: "success" });
       setSelectedEmployee(null);
       setEditPayrollId(null);
     } catch(err) { console.error(err); }
@@ -303,8 +361,8 @@ export default function SalaryPage() {
       type: "Advance",
       employeeId: selectedEmployee.id,
       employeeName: selectedEmployee.name,
-      month: selectedMonth,
-      year: selectedYear,
+      month: formPayrollPeriod.month,
+      year: formPayrollPeriod.year,
       amount: amt,
       paidOn: advForm.paidOn,
       method: advForm.method,
@@ -312,8 +370,8 @@ export default function SalaryPage() {
 
     const payload = {
       employeeId: selectedEmployee.id,
-      month: selectedMonth,
-      year: selectedYear,
+      month: formPayrollPeriod.month,
+      year: formPayrollPeriod.year,
       baseSalary: 0,
       deductions: 0,
       netPay: amt,
@@ -348,7 +406,7 @@ export default function SalaryPage() {
       }
 
       fetchEmployees();
-      showDialog({ title: "Success", message: `Advance of ₹${amt} for ${selectedMonth} ${selectedYear} ${editPayrollId ? 'updated for' : 'paid to'} ${selectedEmployee.name}.`, type: "success" });
+      showDialog({ title: "Success", message: `Advance of ₹${amt} for ${formPayrollPeriod.month} ${formPayrollPeriod.year} ${editPayrollId ? 'updated for' : 'paid to'} ${selectedEmployee.name}.`, type: "success" });
       setSelectedEmployee(null);
       setEditPayrollId(null);
     } catch(err) { console.error(err); }
@@ -360,6 +418,12 @@ export default function SalaryPage() {
     setEditPayrollId(h.id);
     setSelectedEmployee(emp);
     setActionType(h.type);
+    
+    setFormPayrollPeriod({
+      label: `${h.month} ${h.year}`,
+      month: h.month,
+      year: h.year
+    });
     
     if (h.type === "Salary") {
       setSalForm({
@@ -424,25 +488,29 @@ export default function SalaryPage() {
     const W = doc.internal.pageSize.getWidth();
 
     doc.setFillColor(30, 27, 75);
-    doc.rect(0, 0, W, 70, "F");
+    doc.rect(0, 0, W, 90, "F");
     doc.setTextColor(255, 255, 255);
     doc.setFont("helvetica", "bold");
     doc.setFontSize(16);
     doc.text("MONA INTERIOR STUDIO", W / 2, 28, { align: "center" });
     doc.setFontSize(9);
     doc.setFont("helvetica", "normal");
-    doc.text("PAYSLIP", W / 2, 44, { align: "center" });
+    doc.text("No.378, Kagithapuram, S.kolathur, Chennai-129", W / 2, 42, { align: "center" });
+    doc.text("Phone: 9176093482 | Email: monainteriorsstudio@gmail.com", W / 2, 54, { align: "center" });
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "bold");
+    doc.text("PAYSLIP", W / 2, 70, { align: "center" });
     doc.setFontSize(8);
-    doc.text(`${h.month} ${h.year}`, W / 2, 58, { align: "center" });
+    doc.text(`${h.month} ${h.year}`, W / 2, 82, { align: "center" });
 
     doc.setTextColor(30, 30, 30);
     doc.setFont("helvetica", "bold");
     doc.setFontSize(12);
-    doc.text(h.employeeName, 30, 92);
+    doc.text(h.employeeName, 30, 112);
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9);
     doc.setTextColor(100, 100, 100);
-    doc.text(`${h.role || ""}   |   Paid on: ${h.paidOn}   |   Via: ${h.method}   |   Days: ${h.paidDays || 30}`, 30, 108);
+    doc.text(`${h.role || ""}   |   Paid on: ${h.paidOn}   |   Via: ${h.method}   |   Days: ${h.paidDays || 30}`, 30, 128);
 
     const earnings = [
       ["Basic Pay", `Rs. ${(h.basic || 0).toLocaleString()}`],
@@ -456,7 +524,7 @@ export default function SalaryPage() {
     if (h.otherDeductions > 0) deductions.push(["Other Deductions", `- Rs. ${h.otherDeductions.toLocaleString()}`]);
 
     autoTable(doc, {
-      startY: 122,
+      startY: 142,
       head: [["Earnings", "Amount"]],
       body: earnings,
       theme: "grid",
@@ -576,7 +644,7 @@ export default function SalaryPage() {
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(e.target.value)}
             >
-              {MONTHS.map((m) => (
+              {availableMonths.map((m) => (
                 <option key={m}>{m}</option>
               ))}
             </select>
@@ -585,7 +653,7 @@ export default function SalaryPage() {
               value={selectedYear}
               onChange={(e) => setSelectedYear(e.target.value)}
             >
-              {[2024, 2025].map((y) => (
+              {[2024, 2025, 2026, 2027].map((y) => (
                 <option key={y}>{y}</option>
               ))}
             </select>
@@ -727,7 +795,15 @@ export default function SalaryPage() {
 
                     <div className="mb-3">
                       <label className={labelClass}>Payroll Period</label>
-                      <input type="text" readOnly value={`${selectedMonth} ${selectedYear}`} className="w-full p-2.5 border border-[var(--border-color)] rounded-xl themed-input outline-none font-bold text-sm opacity-60 cursor-not-allowed" />
+                      <select 
+                        value={formPayrollPeriod.label} 
+                        onChange={handleFormPeriodChange}
+                        className="w-full p-2.5 border border-[var(--border-color)] rounded-xl themed-input outline-none focus:border-violet-500 font-bold text-sm cursor-pointer"
+                      >
+                        {formPeriodOptions.map(opt => (
+                           <option key={opt.label} value={opt.label}>{opt.label}</option>
+                        ))}
+                      </select>
                     </div>
                     
                     <div className="grid grid-cols-3 gap-3 mb-3">
@@ -815,7 +891,15 @@ export default function SalaryPage() {
                   >
                     <div className="mb-3">
                       <label className={labelClass}>Payroll Period</label>
-                      <input type="text" readOnly value={`${selectedMonth} ${selectedYear}`} className="w-full p-2.5 border border-[var(--border-color)] rounded-xl themed-input outline-none font-bold text-sm opacity-60 cursor-not-allowed" />
+                      <select 
+                        value={formPayrollPeriod.label} 
+                        onChange={handleFormPeriodChange}
+                        className="w-full p-2.5 border border-[var(--border-color)] rounded-xl themed-input outline-none focus:border-violet-500 font-bold text-sm cursor-pointer"
+                      >
+                        {formPeriodOptions.map(opt => (
+                           <option key={opt.label} value={opt.label}>{opt.label}</option>
+                        ))}
+                      </select>
                     </div>
                     <div className="mb-3">
                       <label className={labelClass}>Advance Amount</label>

@@ -27,7 +27,7 @@ const PayslipDocument = forwardRef(({ data }, ref) => {
             <img src="/logo.png" alt="Logo" className="w-16 h-16 object-contain rounded-lg" onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }} />
             <div>
               <h1 className="text-2xl font-black uppercase tracking-tighter text-gray-900">Mona Interior Studio</h1>
-              <p className="font-bold text-gray-600 text-sm">Thiruvananthapuram, Kerala, India</p>
+              <p className="font-bold text-gray-600 text-xs mt-1">No.378, Kagithapuram, S.kolathur, Chennai-129</p>
             </div>
           </div>
           <div className="text-right">

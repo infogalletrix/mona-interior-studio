@@ -33,7 +33,7 @@ namespace Mona_Interior.Controllers
                 .ToList();
 
             int maxSerial = currentMonthNums.Count > 0 ? currentMonthNums.Max() : 0;
-            return maxSerial >= 9999 ? 1 : maxSerial + 1;
+            return maxSerial + 1;
         }
 
         // GET /api/quotations/next-number  (preview only — does NOT reserve a number)

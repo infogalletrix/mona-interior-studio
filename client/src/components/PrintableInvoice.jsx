@@ -15,7 +15,9 @@ const PrintableInvoice = forwardRef(({ data, docType }, ref) => {
           <img src="/logo.png" alt="Logo" className="w-20 h-20 object-contain rounded-lg" onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }} />
           <div>
             <h1 className="text-3xl font-bold">Mona Interior Studio</h1>
-            <p>Professional Interior Design Services</p>
+            <p className="text-sm">No.378, Kagithapuram, S.kolathur, Chennai-600129</p>
+            <p className="text-sm">Phone: 9176093482 | Email: monainteriorsstudio@gmail.com</p>
+            {safeData.billType === "GST" && <p className="text-sm font-semibold mt-1">GSTIN: 33CRFPK5712H1ZZ</p>}
           </div>
         </div>
         <div className="text-right">
