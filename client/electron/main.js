@@ -50,7 +50,9 @@ function createWindow() {
   }
 
   // Setup auto updater
-  autoUpdater.checkForUpdatesAndNotify()
+  setTimeout(() => {
+    autoUpdater.checkForUpdatesAndNotify()
+  }, 3000);
 
   autoUpdater.on('update-available', () => {
     win?.webContents.send('update-available')
@@ -58,6 +60,14 @@ function createWindow() {
 
   autoUpdater.on('update-downloaded', () => {
     win?.webContents.send('update-downloaded')
+  })
+
+  autoUpdater.on('error', (err) => {
+    win?.webContents.send('update-error', err == null ? "unknown" : (err.stack || err).toString())
+  })
+
+  autoUpdater.on('update-not-available', () => {
+    win?.webContents.send('update-error', "No new updates found on GitHub.")
   })
 }
 
@@ -81,3 +91,8 @@ app.whenReady().then(() => {
 ipcMain.on('restart_app', () => {
   autoUpdater.quitAndInstall()
 })
+
+ipcMain.on('check_for_updates', () => {
+  autoUpdater.checkForUpdatesAndNotify()
+})
+

@@ -5,6 +5,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import ErrorBoundary from "./components/ErrorBoundary";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./pages/Dashboard";
 import CRMPage from "./pages/CRMPage";
@@ -26,14 +27,20 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [updateStatus, setUpdateStatus] = useState("");
+  const [updateError, setUpdateError] = useState("");
 
   useEffect(() => {
     if (window.ipcRenderer) {
       window.ipcRenderer.on("update-available", () => {
         setUpdateStatus("Downloading new update...");
+        setUpdateError("");
       });
       window.ipcRenderer.on("update-downloaded", () => {
         setUpdateStatus("Update ready to install. Click here to restart.");
+      });
+      window.ipcRenderer.on("update-error", (err) => {
+        setUpdateError(err);
+        setUpdateStatus("");
       });
     }
   }, []);
@@ -59,6 +66,16 @@ function App() {
                 {updateStatus}
               </div>
             )}
+            
+            {/* Update Error Banner */}
+            {updateError && (
+              <div 
+                className="absolute top-0 left-0 right-0 z-50 text-center py-2 text-white font-medium bg-red-600 cursor-pointer"
+                onClick={() => setUpdateError("")}
+              >
+                Update Error: {updateError}
+              </div>
+            )}
 
             <Sidebar
               isOpen={isSidebarOpen}
@@ -66,32 +83,34 @@ function App() {
             />
             <main className="flex-1 overflow-y-auto relative flex flex-col items-center">
               <div className="w-full max-w-[1600px] 2xl:max-w-[1920px] mx-auto">
-                <Routes>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/crm" element={<CRMPage />} />
-                  <Route path="/quotations" element={<QuotationPage />} />
+                <ErrorBoundary>
+                  <Routes>
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/crm" element={<CRMPage />} />
+                    <Route path="/quotations" element={<QuotationPage />} />
 
-                  {/* Finance */}
-                  <Route path="/billing" element={<BillingPage />} />
-                  <Route path="/invoices" element={<InvoicesPage />} />
-                  <Route path="/expenses" element={<ExpensePage />} />
-                  <Route path="/accounts" element={<AccountsPage />} />
-                  <Route path="/receipts" element={<ReceiptPage />} />
+                    {/* Finance */}
+                    <Route path="/billing" element={<BillingPage />} />
+                    <Route path="/invoices" element={<InvoicesPage />} />
+                    <Route path="/expenses" element={<ExpensePage />} />
+                    <Route path="/accounts" element={<AccountsPage />} />
+                    <Route path="/receipts" element={<ReceiptPage />} />
 
-                  {/* Projects */}
-                  <Route path="/sites" element={<SitesPage />} />
+                    {/* Projects */}
+                    <Route path="/sites" element={<SitesPage />} />
 
-                  {/* HR */}
-                  <Route path="/employees" element={<EmployeesPage />} />
-                  <Route path="/attendance" element={<AttendancePage />} />
-                  <Route path="/salary" element={<SalaryPage />} />
-                  <Route path="/reports" element={<ReportsPage />} />
+                    {/* HR */}
+                    <Route path="/employees" element={<EmployeesPage />} />
+                    <Route path="/attendance" element={<AttendancePage />} />
+                    <Route path="/salary" element={<SalaryPage />} />
+                    <Route path="/reports" element={<ReportsPage />} />
 
-                  {/* Admin Utilities */}
-                  <Route path="/reset007" element={<ResetDatabasePage />} />
+                    {/* Admin Utilities */}
+                    <Route path="/reset007" element={<ResetDatabasePage />} />
 
-                  <Route path="*" element={<Navigate to="/" replace />} />
-                </Routes>
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                  </Routes>
+                </ErrorBoundary>
               </div>
             </main>
           </div>

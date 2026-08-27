@@ -4939,10 +4939,10 @@ Please double check that your authentication token is correct. Due to security r
 		a(e, i, t), u[e] = i, c[i] = t, l[i] = r, o[i] = new RegExp(t, n ? "g" : void 0), s[i] = new RegExp(r, n ? "g" : void 0);
 	};
 	h("NUMERICIDENTIFIER", "0|[1-9]\\d*"), h("NUMERICIDENTIFIERLOOSE", "\\d+"), h("NONNUMERICIDENTIFIER", `\\d*[a-zA-Z-]${f}*`), h("MAINVERSION", `(${c[u.NUMERICIDENTIFIER]})\\.(${c[u.NUMERICIDENTIFIER]})\\.(${c[u.NUMERICIDENTIFIER]})`), h("MAINVERSIONLOOSE", `(${c[u.NUMERICIDENTIFIERLOOSE]})\\.(${c[u.NUMERICIDENTIFIERLOOSE]})\\.(${c[u.NUMERICIDENTIFIERLOOSE]})`), h("PRERELEASEIDENTIFIER", `(?:${c[u.NONNUMERICIDENTIFIER]}|${c[u.NUMERICIDENTIFIER]})`), h("PRERELEASEIDENTIFIERLOOSE", `(?:${c[u.NONNUMERICIDENTIFIER]}|${c[u.NUMERICIDENTIFIERLOOSE]})`), h("PRERELEASE", `(?:-(${c[u.PRERELEASEIDENTIFIER]}(?:\\.${c[u.PRERELEASEIDENTIFIER]})*))`), h("PRERELEASELOOSE", `(?:-?(${c[u.PRERELEASEIDENTIFIERLOOSE]}(?:\\.${c[u.PRERELEASEIDENTIFIERLOOSE]})*))`), h("BUILDIDENTIFIER", `${f}+`), h("BUILD", `(?:\\+(${c[u.BUILDIDENTIFIER]}(?:\\.${c[u.BUILDIDENTIFIER]})*))`), h("FULLPLAIN", `v?${c[u.MAINVERSION]}${c[u.PRERELEASE]}?${c[u.BUILD]}?`), h("FULL", `^${c[u.FULLPLAIN]}$`), h("LOOSEPLAIN", `[v=\\s]*${c[u.MAINVERSIONLOOSE]}${c[u.PRERELEASELOOSE]}?${c[u.BUILD]}?`), h("LOOSE", `^${c[u.LOOSEPLAIN]}$`), h("GTLT", "((?:<|>)?=?)"), h("XRANGEIDENTIFIERLOOSE", `${c[u.NUMERICIDENTIFIERLOOSE]}|x|X|\\*`), h("XRANGEIDENTIFIER", `${c[u.NUMERICIDENTIFIER]}|x|X|\\*`), h("XRANGEPLAIN", `[v=\\s]*(${c[u.XRANGEIDENTIFIER]})(?:\\.(${c[u.XRANGEIDENTIFIER]})(?:\\.(${c[u.XRANGEIDENTIFIER]})(?:${c[u.PRERELEASE]})?${c[u.BUILD]}?)?)?`), h("XRANGEPLAINLOOSE", `[v=\\s]*(${c[u.XRANGEIDENTIFIERLOOSE]})(?:\\.(${c[u.XRANGEIDENTIFIERLOOSE]})(?:\\.(${c[u.XRANGEIDENTIFIERLOOSE]})(?:${c[u.PRERELEASELOOSE]})?${c[u.BUILD]}?)?)?`), h("XRANGE", `^${c[u.GTLT]}\\s*${c[u.XRANGEPLAIN]}$`), h("XRANGELOOSE", `^${c[u.GTLT]}\\s*${c[u.XRANGEPLAINLOOSE]}$`), h("COERCEPLAIN", `(^|[^\\d])(\\d{1,${n}})(?:\\.(\\d{1,${n}}))?(?:\\.(\\d{1,${n}}))?`), h("COERCE", `${c[u.COERCEPLAIN]}(?:$|[^\\d])`), h("COERCEFULL", c[u.COERCEPLAIN] + `(?:${c[u.PRERELEASE]})?(?:${c[u.BUILD]})?(?:$|[^\\d])`), h("COERCERTL", c[u.COERCE], !0), h("COERCERTLFULL", c[u.COERCEFULL], !0), h("LONETILDE", "(?:~>?)"), h("TILDETRIM", `(\\s*)${c[u.LONETILDE]}\\s+`, !0), e.tildeTrimReplace = "$1~", h("TILDE", `^${c[u.LONETILDE]}${c[u.XRANGEPLAIN]}$`), h("TILDELOOSE", `^${c[u.LONETILDE]}${c[u.XRANGEPLAINLOOSE]}$`), h("LONECARET", "(?:\\^)"), h("CARETTRIM", `(\\s*)${c[u.LONECARET]}\\s+`, !0), e.caretTrimReplace = "$1^", h("CARET", `^${c[u.LONECARET]}${c[u.XRANGEPLAIN]}$`), h("CARETLOOSE", `^${c[u.LONECARET]}${c[u.XRANGEPLAINLOOSE]}$`), h("COMPARATORLOOSE", `^${c[u.GTLT]}\\s*(${c[u.LOOSEPLAIN]})$|^$`), h("COMPARATOR", `^${c[u.GTLT]}\\s*(${c[u.FULLPLAIN]})$|^$`), h("COMPARATORTRIM", `(\\s*)${c[u.GTLT]}\\s*(${c[u.LOOSEPLAIN]}|${c[u.XRANGEPLAIN]})`, !0), e.comparatorTrimReplace = "$1$2$3", h("HYPHENRANGE", `^\\s*(${c[u.XRANGEPLAIN]})\\s+-\\s+(${c[u.XRANGEPLAIN]})\\s*$`), h("HYPHENRANGELOOSE", `^\\s*(${c[u.XRANGEPLAINLOOSE]})\\s+-\\s+(${c[u.XRANGEPLAINLOOSE]})\\s*$`), h("STAR", "(<|>)?=?\\s*\\*"), h("GTE0", "^\\s*>=\\s*0\\.0\\.0\\s*$"), h("GTE0PRE", "^\\s*>=\\s*0\\.0\\.0-0\\s*$");
-})), Y = /* @__PURE__ */ o(((e, t) => {
+})), Ue = /* @__PURE__ */ o(((e, t) => {
 	var n = Object.freeze({ loose: !0 }), r = Object.freeze({});
 	t.exports = (e) => e ? typeof e == "object" ? e : n : r;
-})), Ue = /* @__PURE__ */ o(((e, t) => {
+})), We = /* @__PURE__ */ o(((e, t) => {
 	var n = /^[0-9]+$/, r = (e, t) => {
 		if (typeof e == "number" && typeof t == "number") return e === t ? 0 : e < t ? -1 : 1;
 		let r = n.test(e), i = n.test(t);
@@ -4952,8 +4952,8 @@ Please double check that your authentication token is correct. Due to security r
 		compareIdentifiers: r,
 		rcompareIdentifiers: (e, t) => r(t, e)
 	};
-})), X = /* @__PURE__ */ o(((e, t) => {
-	var n = Ve(), { MAX_LENGTH: r, MAX_SAFE_INTEGER: i } = Be(), { safeRe: a, t: o } = He(), s = Y(), { compareIdentifiers: c } = Ue();
+})), Y = /* @__PURE__ */ o(((e, t) => {
+	var n = Ve(), { MAX_LENGTH: r, MAX_SAFE_INTEGER: i } = Be(), { safeRe: a, t: o } = He(), s = Ue(), { compareIdentifiers: c } = We();
 	t.exports = class e {
 		constructor(t, c) {
 			if (c = s(c), t instanceof e) {
@@ -5073,8 +5073,8 @@ Please double check that your authentication token is correct. Due to security r
 			return this.raw = this.format(), this.build.length && (this.raw += `+${this.build.join(".")}`), this;
 		}
 	};
-})), We = /* @__PURE__ */ o(((e, t) => {
-	var n = X();
+})), Ge = /* @__PURE__ */ o(((e, t) => {
+	var n = Y();
 	t.exports = (e, t, r = !1) => {
 		if (e instanceof n) return e;
 		try {
@@ -5084,20 +5084,20 @@ Please double check that your authentication token is correct. Due to security r
 			throw e;
 		}
 	};
-})), Ge = /* @__PURE__ */ o(((e, t) => {
-	var n = We();
+})), Ke = /* @__PURE__ */ o(((e, t) => {
+	var n = Ge();
 	t.exports = (e, t) => {
 		let r = n(e, t);
 		return r ? r.version : null;
 	};
-})), Ke = /* @__PURE__ */ o(((e, t) => {
-	var n = We();
+})), qe = /* @__PURE__ */ o(((e, t) => {
+	var n = Ge();
 	t.exports = (e, t) => {
 		let r = n(e.trim().replace(/^[=v]+/, ""), t);
 		return r ? r.version : null;
 	};
-})), qe = /* @__PURE__ */ o(((e, t) => {
-	var n = X();
+})), Je = /* @__PURE__ */ o(((e, t) => {
+	var n = Y();
 	t.exports = (e, t, r, i, a) => {
 		typeof r == "string" && (a = i, i = r, r = void 0);
 		try {
@@ -5106,8 +5106,8 @@ Please double check that your authentication token is correct. Due to security r
 			return null;
 		}
 	};
-})), Je = /* @__PURE__ */ o(((e, t) => {
-	var n = We();
+})), Ye = /* @__PURE__ */ o(((e, t) => {
+	var n = Ge();
 	t.exports = (e, t) => {
 		let r = n(e, null, !0), i = n(t, null, !0), a = r.compare(i);
 		if (a === 0) return null;
@@ -5119,62 +5119,62 @@ Please double check that your authentication token is correct. Due to security r
 		let u = l ? "pre" : "";
 		return r.major === i.major ? r.minor === i.minor ? r.patch === i.patch ? "prerelease" : u + "patch" : u + "minor" : u + "major";
 	};
-})), Ye = /* @__PURE__ */ o(((e, t) => {
-	var n = X();
-	t.exports = (e, t) => new n(e, t).major;
 })), Xe = /* @__PURE__ */ o(((e, t) => {
-	var n = X();
-	t.exports = (e, t) => new n(e, t).minor;
+	var n = Y();
+	t.exports = (e, t) => new n(e, t).major;
 })), Ze = /* @__PURE__ */ o(((e, t) => {
-	var n = X();
-	t.exports = (e, t) => new n(e, t).patch;
+	var n = Y();
+	t.exports = (e, t) => new n(e, t).minor;
 })), Qe = /* @__PURE__ */ o(((e, t) => {
-	var n = We();
+	var n = Y();
+	t.exports = (e, t) => new n(e, t).patch;
+})), $e = /* @__PURE__ */ o(((e, t) => {
+	var n = Ge();
 	t.exports = (e, t) => {
 		let r = n(e, t);
 		return r && r.prerelease.length ? r.prerelease : null;
 	};
-})), Z = /* @__PURE__ */ o(((e, t) => {
-	var n = X();
+})), X = /* @__PURE__ */ o(((e, t) => {
+	var n = Y();
 	t.exports = (e, t, r) => new n(e, r).compare(new n(t, r));
-})), $e = /* @__PURE__ */ o(((e, t) => {
-	var n = Z();
-	t.exports = (e, t, r) => n(t, e, r);
 })), et = /* @__PURE__ */ o(((e, t) => {
-	var n = Z();
-	t.exports = (e, t) => n(e, t, !0);
+	var n = X();
+	t.exports = (e, t, r) => n(t, e, r);
 })), tt = /* @__PURE__ */ o(((e, t) => {
 	var n = X();
+	t.exports = (e, t) => n(e, t, !0);
+})), nt = /* @__PURE__ */ o(((e, t) => {
+	var n = Y();
 	t.exports = (e, t, r) => {
 		let i = new n(e, r), a = new n(t, r);
 		return i.compare(a) || i.compareBuild(a);
 	};
-})), nt = /* @__PURE__ */ o(((e, t) => {
-	var n = tt();
-	t.exports = (e, t) => e.sort((e, r) => n(e, r, t));
 })), rt = /* @__PURE__ */ o(((e, t) => {
-	var n = tt();
-	t.exports = (e, t) => e.sort((e, r) => n(r, e, t));
+	var n = nt();
+	t.exports = (e, t) => e.sort((e, r) => n(e, r, t));
 })), it = /* @__PURE__ */ o(((e, t) => {
-	var n = Z();
-	t.exports = (e, t, r) => n(e, t, r) > 0;
+	var n = nt();
+	t.exports = (e, t) => e.sort((e, r) => n(r, e, t));
 })), at = /* @__PURE__ */ o(((e, t) => {
-	var n = Z();
-	t.exports = (e, t, r) => n(e, t, r) < 0;
+	var n = X();
+	t.exports = (e, t, r) => n(e, t, r) > 0;
 })), ot = /* @__PURE__ */ o(((e, t) => {
-	var n = Z();
-	t.exports = (e, t, r) => n(e, t, r) === 0;
+	var n = X();
+	t.exports = (e, t, r) => n(e, t, r) < 0;
 })), st = /* @__PURE__ */ o(((e, t) => {
-	var n = Z();
-	t.exports = (e, t, r) => n(e, t, r) !== 0;
+	var n = X();
+	t.exports = (e, t, r) => n(e, t, r) === 0;
 })), ct = /* @__PURE__ */ o(((e, t) => {
-	var n = Z();
-	t.exports = (e, t, r) => n(e, t, r) >= 0;
+	var n = X();
+	t.exports = (e, t, r) => n(e, t, r) !== 0;
 })), lt = /* @__PURE__ */ o(((e, t) => {
-	var n = Z();
-	t.exports = (e, t, r) => n(e, t, r) <= 0;
+	var n = X();
+	t.exports = (e, t, r) => n(e, t, r) >= 0;
 })), ut = /* @__PURE__ */ o(((e, t) => {
-	var n = ot(), r = st(), i = it(), a = ct(), o = at(), s = lt();
+	var n = X();
+	t.exports = (e, t, r) => n(e, t, r) <= 0;
+})), dt = /* @__PURE__ */ o(((e, t) => {
+	var n = st(), r = ct(), i = at(), a = lt(), o = ot(), s = ut();
 	t.exports = (e, t, c, l) => {
 		switch (t) {
 			case "===": return typeof e == "object" && (e = e.version), typeof c == "object" && (c = c.version), e === c;
@@ -5190,8 +5190,8 @@ Please double check that your authentication token is correct. Due to security r
 			default: throw TypeError(`Invalid operator: ${t}`);
 		}
 	};
-})), dt = /* @__PURE__ */ o(((e, t) => {
-	var n = X(), r = We(), { safeRe: i, t: a } = He();
+})), ft = /* @__PURE__ */ o(((e, t) => {
+	var n = Y(), r = Ge(), { safeRe: i, t: a } = He();
 	t.exports = (e, t) => {
 		if (e instanceof n) return e;
 		if (typeof e == "number" && (e = String(e)), typeof e != "string") return null;
@@ -5207,7 +5207,7 @@ Please double check that your authentication token is correct. Due to security r
 		let s = o[2];
 		return r(`${s}.${o[3] || "0"}.${o[4] || "0"}${t.includePrerelease && o[5] ? `-${o[5]}` : ""}${t.includePrerelease && o[6] ? `+${o[6]}` : ""}`, t);
 	};
-})), ft = /* @__PURE__ */ o(((e, t) => {
+})), pt = /* @__PURE__ */ o(((e, t) => {
 	t.exports = class {
 		constructor() {
 			this.max = 1e3, this.map = /* @__PURE__ */ new Map();
@@ -5230,7 +5230,7 @@ Please double check that your authentication token is correct. Due to security r
 			return this;
 		}
 	};
-})), Q = /* @__PURE__ */ o(((e, t) => {
+})), Z = /* @__PURE__ */ o(((e, t) => {
 	var n = /\s+/g;
 	t.exports = class e {
 		constructor(t, r) {
@@ -5297,7 +5297,7 @@ Please double check that your authentication token is correct. Due to security r
 			return !1;
 		}
 	};
-	var r = new (ft())(), i = Y(), a = pt(), o = Ve(), s = X(), { safeRe: c, t: l, comparatorTrimReplace: u, tildeTrimReplace: d, caretTrimReplace: f } = He(), { FLAG_INCLUDE_PRERELEASE: p, FLAG_LOOSE: m } = Be(), h = (e) => e.value === "<0.0.0-0", g = (e) => e.value === "", _ = (e, t) => {
+	var r = new (pt())(), i = Ue(), a = mt(), o = Ve(), s = Y(), { safeRe: c, t: l, comparatorTrimReplace: u, tildeTrimReplace: d, caretTrimReplace: f } = He(), { FLAG_INCLUDE_PRERELEASE: p, FLAG_LOOSE: m } = Be(), h = (e) => e.value === "<0.0.0-0", g = (e) => e.value === "", _ = (e, t) => {
 		let n = !0, r = e.slice(), i = r.pop();
 		for (; n && r.length;) n = r.every((e) => i.intersects(e, t)), i = r.pop();
 		return n;
@@ -5335,7 +5335,7 @@ Please double check that your authentication token is correct. Due to security r
 		}
 		return !0;
 	};
-})), pt = /* @__PURE__ */ o(((e, t) => {
+})), mt = /* @__PURE__ */ o(((e, t) => {
 	var n = Symbol("SemVer ANY");
 	t.exports = class e {
 		static get ANY() {
@@ -5370,9 +5370,9 @@ Please double check that your authentication token is correct. Due to security r
 			return this.operator === "" ? this.value === "" ? !0 : new l(t.value, n).test(this.value) : t.operator === "" ? t.value === "" ? !0 : new l(this.value, n).test(t.semver) : (n = r(n), n.includePrerelease && (this.value === "<0.0.0-0" || t.value === "<0.0.0-0") || !n.includePrerelease && (this.value.startsWith("<0.0.0") || t.value.startsWith("<0.0.0")) ? !1 : !!(this.operator.startsWith(">") && t.operator.startsWith(">") || this.operator.startsWith("<") && t.operator.startsWith("<") || this.semver.version === t.semver.version && this.operator.includes("=") && t.operator.includes("=") || o(this.semver, "<", t.semver, n) && this.operator.startsWith(">") && t.operator.startsWith("<") || o(this.semver, ">", t.semver, n) && this.operator.startsWith("<") && t.operator.startsWith(">")));
 		}
 	};
-	var r = Y(), { safeRe: i, t: a } = He(), o = ut(), s = Ve(), c = X(), l = Q();
-})), mt = /* @__PURE__ */ o(((e, t) => {
-	var n = Q();
+	var r = Ue(), { safeRe: i, t: a } = He(), o = dt(), s = Ve(), c = Y(), l = Z();
+})), ht = /* @__PURE__ */ o(((e, t) => {
+	var n = Z();
 	t.exports = (e, t, r) => {
 		try {
 			t = new n(t, r);
@@ -5381,11 +5381,11 @@ Please double check that your authentication token is correct. Due to security r
 		}
 		return t.test(e);
 	};
-})), ht = /* @__PURE__ */ o(((e, t) => {
-	var n = Q();
-	t.exports = (e, t) => new n(e, t).set.map((e) => e.map((e) => e.value).join(" ").trim().split(" "));
 })), gt = /* @__PURE__ */ o(((e, t) => {
-	var n = X(), r = Q();
+	var n = Z();
+	t.exports = (e, t) => new n(e, t).set.map((e) => e.map((e) => e.value).join(" ").trim().split(" "));
+})), _t = /* @__PURE__ */ o(((e, t) => {
+	var n = Y(), r = Z();
 	t.exports = (e, t, i) => {
 		let a = null, o = null, s = null;
 		try {
@@ -5397,8 +5397,8 @@ Please double check that your authentication token is correct. Due to security r
 			s.test(e) && (!a || o.compare(e) === -1) && (a = e, o = new n(a, i));
 		}), a;
 	};
-})), _t = /* @__PURE__ */ o(((e, t) => {
-	var n = X(), r = Q();
+})), vt = /* @__PURE__ */ o(((e, t) => {
+	var n = Y(), r = Z();
 	t.exports = (e, t, i) => {
 		let a = null, o = null, s = null;
 		try {
@@ -5410,8 +5410,8 @@ Please double check that your authentication token is correct. Due to security r
 			s.test(e) && (!a || o.compare(e) === 1) && (a = e, o = new n(a, i));
 		}), a;
 	};
-})), vt = /* @__PURE__ */ o(((e, t) => {
-	var n = X(), r = Q(), i = it();
+})), yt = /* @__PURE__ */ o(((e, t) => {
+	var n = Y(), r = Z(), i = at();
 	t.exports = (e, t) => {
 		e = new r(e, t);
 		let a = new n("0.0.0");
@@ -5436,8 +5436,8 @@ Please double check that your authentication token is correct. Due to security r
 		}
 		return a && e.test(a) ? a : null;
 	};
-})), yt = /* @__PURE__ */ o(((e, t) => {
-	var n = Q();
+})), bt = /* @__PURE__ */ o(((e, t) => {
+	var n = Z();
 	t.exports = (e, t) => {
 		try {
 			return new n(e, t).range || "*";
@@ -5445,8 +5445,8 @@ Please double check that your authentication token is correct. Due to security r
 			return null;
 		}
 	};
-})), bt = /* @__PURE__ */ o(((e, t) => {
-	var n = X(), r = pt(), { ANY: i } = r, a = Q(), o = mt(), s = it(), c = at(), l = lt(), u = ct();
+})), xt = /* @__PURE__ */ o(((e, t) => {
+	var n = Y(), r = mt(), { ANY: i } = r, a = Z(), o = ht(), s = at(), c = ot(), l = ut(), u = lt();
 	t.exports = (e, t, d, f) => {
 		e = new n(e, f), t = new a(t, f);
 		let p, m, h, g, _;
@@ -5468,17 +5468,17 @@ Please double check that your authentication token is correct. Due to security r
 		}
 		return !0;
 	};
-})), xt = /* @__PURE__ */ o(((e, t) => {
-	var n = bt();
-	t.exports = (e, t, r) => n(e, t, ">", r);
 })), St = /* @__PURE__ */ o(((e, t) => {
-	var n = bt();
-	t.exports = (e, t, r) => n(e, t, "<", r);
+	var n = xt();
+	t.exports = (e, t, r) => n(e, t, ">", r);
 })), Ct = /* @__PURE__ */ o(((e, t) => {
-	var n = Q();
-	t.exports = (e, t, r) => (e = new n(e, r), t = new n(t, r), e.intersects(t, r));
+	var n = xt();
+	t.exports = (e, t, r) => n(e, t, "<", r);
 })), wt = /* @__PURE__ */ o(((e, t) => {
-	var n = mt(), r = Z();
+	var n = Z();
+	t.exports = (e, t, r) => (e = new n(e, r), t = new n(t, r), e.intersects(t, r));
+})), Tt = /* @__PURE__ */ o(((e, t) => {
+	var n = ht(), r = X();
 	t.exports = (e, t, i) => {
 		let a = [], o = null, s = null, c = e.sort((e, t) => r(e, t, i));
 		for (let e of c) n(e, t, i) ? (s = e, o ||= e) : (s && a.push([o, s]), s = null, o = null);
@@ -5488,8 +5488,8 @@ Please double check that your authentication token is correct. Due to security r
 		let u = l.join(" || "), d = typeof t.raw == "string" ? t.raw : String(t);
 		return u.length < d.length ? u : t;
 	};
-})), Tt = /* @__PURE__ */ o(((e, t) => {
-	var n = Q(), r = pt(), { ANY: i } = r, a = mt(), o = Z(), s = (e, t, r = {}) => {
+})), Et = /* @__PURE__ */ o(((e, t) => {
+	var n = Z(), r = mt(), { ANY: i } = r, a = ht(), o = X(), s = (e, t, r = {}) => {
 		if (e === t) return !0;
 		e = new n(e, r), t = new n(t, r);
 		let i = !1;
@@ -5547,46 +5547,46 @@ Please double check that your authentication token is correct. Due to security r
 		return r < 0 ? e : r > 0 || t.operator === "<" && e.operator === "<=" ? t : e;
 	};
 	t.exports = s;
-})), Et = /* @__PURE__ */ o(((e, t) => {
-	var n = He(), r = Be(), i = X(), a = Ue();
+})), Dt = /* @__PURE__ */ o(((e, t) => {
+	var n = He(), r = Be(), i = Y(), a = We();
 	t.exports = {
-		parse: We(),
-		valid: Ge(),
-		clean: Ke(),
-		inc: qe(),
-		diff: Je(),
-		major: Ye(),
-		minor: Xe(),
-		patch: Ze(),
-		prerelease: Qe(),
-		compare: Z(),
-		rcompare: $e(),
-		compareLoose: et(),
-		compareBuild: tt(),
-		sort: nt(),
-		rsort: rt(),
-		gt: it(),
-		lt: at(),
-		eq: ot(),
-		neq: st(),
-		gte: ct(),
-		lte: lt(),
-		cmp: ut(),
-		coerce: dt(),
-		Comparator: pt(),
-		Range: Q(),
-		satisfies: mt(),
-		toComparators: ht(),
-		maxSatisfying: gt(),
-		minSatisfying: _t(),
-		minVersion: vt(),
-		validRange: yt(),
-		outside: bt(),
-		gtr: xt(),
-		ltr: St(),
-		intersects: Ct(),
-		simplifyRange: wt(),
-		subset: Tt(),
+		parse: Ge(),
+		valid: Ke(),
+		clean: qe(),
+		inc: Je(),
+		diff: Ye(),
+		major: Xe(),
+		minor: Ze(),
+		patch: Qe(),
+		prerelease: $e(),
+		compare: X(),
+		rcompare: et(),
+		compareLoose: tt(),
+		compareBuild: nt(),
+		sort: rt(),
+		rsort: it(),
+		gt: at(),
+		lt: ot(),
+		eq: st(),
+		neq: ct(),
+		gte: lt(),
+		lte: ut(),
+		cmp: dt(),
+		coerce: ft(),
+		Comparator: mt(),
+		Range: Z(),
+		satisfies: ht(),
+		toComparators: gt(),
+		maxSatisfying: _t(),
+		minSatisfying: vt(),
+		minVersion: yt(),
+		validRange: bt(),
+		outside: xt(),
+		gtr: St(),
+		ltr: Ct(),
+		intersects: wt(),
+		simplifyRange: Tt(),
+		subset: Et(),
 		SemVer: i,
 		re: n.re,
 		src: n.src,
@@ -5596,7 +5596,7 @@ Please double check that your authentication token is correct. Due to security r
 		compareIdentifiers: a.compareIdentifiers,
 		rcompareIdentifiers: a.rcompareIdentifiers
 	};
-})), Dt = /* @__PURE__ */ o(((e, t) => {
+})), Ot = /* @__PURE__ */ o(((e, t) => {
 	var n = 200, r = "__lodash_hash_undefined__", i = 1, a = 2, o = 9007199254740991, s = "[object Arguments]", c = "[object Array]", l = "[object AsyncFunction]", u = "[object Boolean]", d = "[object Date]", f = "[object Error]", p = "[object Function]", m = "[object GeneratorFunction]", h = "[object Map]", g = "[object Number]", _ = "[object Null]", v = "[object Object]", y = "[object Promise]", b = "[object Proxy]", x = "[object RegExp]", S = "[object Set]", C = "[object String]", w = "[object Symbol]", T = "[object Undefined]", E = "[object WeakMap]", D = "[object ArrayBuffer]", O = "[object DataView]", k = "[object Float32Array]", A = "[object Float64Array]", j = "[object Int8Array]", M = "[object Int16Array]", N = "[object Int32Array]", P = "[object Uint8Array]", F = "[object Uint8ClampedArray]", I = "[object Uint16Array]", ee = "[object Uint32Array]", L = /[\\^$.*+?()[\]{}|]/g, te = /^\[object .+?Constructor\]$/, ne = /^(?:0|[1-9]\d*)$/, R = {};
 	R[k] = R[A] = R[j] = R[M] = R[N] = R[P] = R[F] = R[I] = R[ee] = !0, R[s] = R[c] = R[D] = R[u] = R[O] = R[d] = R[f] = R[p] = R[h] = R[g] = R[v] = R[x] = R[S] = R[C] = R[E] = !1;
 	var z = typeof global == "object" && global && global.Object === Object && global, B = typeof self == "object" && self && self.Object === Object && self, V = z || B || Function("return this")(), H = typeof e == "object" && e && !e.nodeType && e, U = H && typeof t == "object" && t && !t.nodeType && t, W = U && U.exports === H, re = W && z.process, G = function() {
@@ -5654,22 +5654,22 @@ Please double check that your authentication token is correct. Due to security r
 	var he = Array.prototype, K = Function.prototype, ge = Object.prototype, _e = V["__core-js_shared__"], ve = K.toString, q = ge.hasOwnProperty, ye = function() {
 		var e = /[^.]+$/.exec(_e && _e.keys && _e.keys.IE_PROTO || "");
 		return e ? "Symbol(src)_1." + e : "";
-	}(), be = ge.toString, xe = RegExp("^" + ve.call(q).replace(L, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"), J = W ? V.Buffer : void 0, Se = V.Symbol, Ce = V.Uint8Array, we = ge.propertyIsEnumerable, Te = he.splice, Ee = Se ? Se.toStringTag : void 0, De = Object.getOwnPropertySymbols, Oe = J ? J.isBuffer : void 0, ke = pe(Object.keys, Object), Ae = Dt(V, "DataView"), je = Dt(V, "Map"), Me = Dt(V, "Promise"), Ne = Dt(V, "Set"), Pe = Dt(V, "WeakMap"), Fe = Dt(Object, "create"), Ie = Ft(Ae), Le = Ft(je), Re = Ft(Me), ze = Ft(Ne), Be = Ft(Pe), Ve = Se ? Se.prototype : void 0, He = Ve ? Ve.valueOf : void 0;
-	function Y(e) {
+	}(), be = ge.toString, xe = RegExp("^" + ve.call(q).replace(L, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"), J = W ? V.Buffer : void 0, Se = V.Symbol, Ce = V.Uint8Array, we = ge.propertyIsEnumerable, Te = he.splice, Ee = Se ? Se.toStringTag : void 0, De = Object.getOwnPropertySymbols, Oe = J ? J.isBuffer : void 0, ke = pe(Object.keys, Object), Ae = Ot(V, "DataView"), je = Ot(V, "Map"), Me = Ot(V, "Promise"), Ne = Ot(V, "Set"), Pe = Ot(V, "WeakMap"), Fe = Ot(Object, "create"), Ie = It(Ae), Le = It(je), Re = It(Me), ze = It(Ne), Be = It(Pe), Ve = Se ? Se.prototype : void 0, He = Ve ? Ve.valueOf : void 0;
+	function Ue(e) {
 		var t = -1, n = e == null ? 0 : e.length;
 		for (this.clear(); ++t < n;) {
 			var r = e[t];
 			this.set(r[0], r[1]);
 		}
 	}
-	function Ue() {
+	function We() {
 		this.__data__ = Fe ? Fe(null) : {}, this.size = 0;
 	}
-	function X(e) {
+	function Y(e) {
 		var t = this.has(e) && delete this.__data__[e];
 		return this.size -= +!!t, t;
 	}
-	function We(e) {
+	function Ge(e) {
 		var t = this.__data__;
 		if (Fe) {
 			var n = t[e];
@@ -5677,166 +5677,166 @@ Please double check that your authentication token is correct. Due to security r
 		}
 		return q.call(t, e) ? t[e] : void 0;
 	}
-	function Ge(e) {
+	function Ke(e) {
 		var t = this.__data__;
 		return Fe ? t[e] !== void 0 : q.call(t, e);
 	}
-	function Ke(e, t) {
+	function qe(e, t) {
 		var n = this.__data__;
 		return this.size += +!this.has(e), n[e] = Fe && t === void 0 ? r : t, this;
 	}
-	Y.prototype.clear = Ue, Y.prototype.delete = X, Y.prototype.get = We, Y.prototype.has = Ge, Y.prototype.set = Ke;
-	function qe(e) {
+	Ue.prototype.clear = We, Ue.prototype.delete = Y, Ue.prototype.get = Ge, Ue.prototype.has = Ke, Ue.prototype.set = qe;
+	function Je(e) {
 		var t = -1, n = e == null ? 0 : e.length;
 		for (this.clear(); ++t < n;) {
 			var r = e[t];
 			this.set(r[0], r[1]);
 		}
 	}
-	function Je() {
+	function Ye() {
 		this.__data__ = [], this.size = 0;
 	}
-	function Ye(e) {
-		var t = this.__data__, n = pt(t, e);
+	function Xe(e) {
+		var t = this.__data__, n = mt(t, e);
 		return n < 0 ? !1 : (n == t.length - 1 ? t.pop() : Te.call(t, n, 1), --this.size, !0);
 	}
-	function Xe(e) {
-		var t = this.__data__, n = pt(t, e);
+	function Ze(e) {
+		var t = this.__data__, n = mt(t, e);
 		return n < 0 ? void 0 : t[n][1];
 	}
-	function Ze(e) {
-		return pt(this.__data__, e) > -1;
+	function Qe(e) {
+		return mt(this.__data__, e) > -1;
 	}
-	function Qe(e, t) {
-		var n = this.__data__, r = pt(n, e);
+	function $e(e, t) {
+		var n = this.__data__, r = mt(n, e);
 		return r < 0 ? (++this.size, n.push([e, t])) : n[r][1] = t, this;
 	}
-	qe.prototype.clear = Je, qe.prototype.delete = Ye, qe.prototype.get = Xe, qe.prototype.has = Ze, qe.prototype.set = Qe;
-	function Z(e) {
+	Je.prototype.clear = Ye, Je.prototype.delete = Xe, Je.prototype.get = Ze, Je.prototype.has = Qe, Je.prototype.set = $e;
+	function X(e) {
 		var t = -1, n = e == null ? 0 : e.length;
 		for (this.clear(); ++t < n;) {
 			var r = e[t];
 			this.set(r[0], r[1]);
 		}
 	}
-	function $e() {
+	function et() {
 		this.size = 0, this.__data__ = {
-			hash: new Y(),
-			map: new (je || qe)(),
-			string: new Y()
+			hash: new Ue(),
+			map: new (je || Je)(),
+			string: new Ue()
 		};
 	}
-	function et(e) {
-		var t = Et(this, e).delete(e);
+	function tt(e) {
+		var t = Dt(this, e).delete(e);
 		return this.size -= +!!t, t;
 	}
-	function tt(e) {
-		return Et(this, e).get(e);
-	}
 	function nt(e) {
-		return Et(this, e).has(e);
+		return Dt(this, e).get(e);
 	}
-	function rt(e, t) {
-		var n = Et(this, e), r = n.size;
+	function rt(e) {
+		return Dt(this, e).has(e);
+	}
+	function it(e, t) {
+		var n = Dt(this, e), r = n.size;
 		return n.set(e, t), this.size += n.size == r ? 0 : 1, this;
 	}
-	Z.prototype.clear = $e, Z.prototype.delete = et, Z.prototype.get = tt, Z.prototype.has = nt, Z.prototype.set = rt;
-	function it(e) {
-		var t = -1, n = e == null ? 0 : e.length;
-		for (this.__data__ = new Z(); ++t < n;) this.add(e[t]);
-	}
+	X.prototype.clear = et, X.prototype.delete = tt, X.prototype.get = nt, X.prototype.has = rt, X.prototype.set = it;
 	function at(e) {
-		return this.__data__.set(e, r), this;
+		var t = -1, n = e == null ? 0 : e.length;
+		for (this.__data__ = new X(); ++t < n;) this.add(e[t]);
 	}
 	function ot(e) {
+		return this.__data__.set(e, r), this;
+	}
+	function st(e) {
 		return this.__data__.has(e);
 	}
-	it.prototype.add = it.prototype.push = at, it.prototype.has = ot;
-	function st(e) {
-		var t = this.__data__ = new qe(e);
+	at.prototype.add = at.prototype.push = ot, at.prototype.has = st;
+	function ct(e) {
+		var t = this.__data__ = new Je(e);
 		this.size = t.size;
 	}
-	function ct() {
-		this.__data__ = new qe(), this.size = 0;
+	function lt() {
+		this.__data__ = new Je(), this.size = 0;
 	}
-	function lt(e) {
+	function ut(e) {
 		var t = this.__data__, n = t.delete(e);
 		return this.size = t.size, n;
 	}
-	function ut(e) {
+	function dt(e) {
 		return this.__data__.get(e);
 	}
-	function dt(e) {
+	function ft(e) {
 		return this.__data__.has(e);
 	}
-	function ft(e, t) {
+	function pt(e, t) {
 		var r = this.__data__;
-		if (r instanceof qe) {
+		if (r instanceof Je) {
 			var i = r.__data__;
 			if (!je || i.length < n - 1) return i.push([e, t]), this.size = ++r.size, this;
-			r = this.__data__ = new Z(i);
+			r = this.__data__ = new X(i);
 		}
 		return r.set(e, t), this.size = r.size, this;
 	}
-	st.prototype.clear = ct, st.prototype.delete = lt, st.prototype.get = ut, st.prototype.has = dt, st.prototype.set = ft;
-	function Q(e, t) {
-		var n = Rt(e), r = !n && Lt(e), i = !n && !r && Bt(e), a = !n && !r && !i && Kt(e), o = n || r || i || a, s = o ? ce(e.length, String) : [], c = s.length;
-		for (var l in e) (t || q.call(e, l)) && !(o && (l == "length" || i && (l == "offset" || l == "parent") || a && (l == "buffer" || l == "byteLength" || l == "byteOffset") || jt(l, c))) && s.push(l);
+	ct.prototype.clear = lt, ct.prototype.delete = ut, ct.prototype.get = dt, ct.prototype.has = ft, ct.prototype.set = pt;
+	function Z(e, t) {
+		var n = zt(e), r = !n && Rt(e), i = !n && !r && Vt(e), a = !n && !r && !i && qt(e), o = n || r || i || a, s = o ? ce(e.length, String) : [], c = s.length;
+		for (var l in e) (t || q.call(e, l)) && !(o && (l == "length" || i && (l == "offset" || l == "parent") || a && (l == "buffer" || l == "byteLength" || l == "byteOffset") || Mt(l, c))) && s.push(l);
 		return s;
 	}
-	function pt(e, t) {
-		for (var n = e.length; n--;) if (It(e[n][0], t)) return n;
+	function mt(e, t) {
+		for (var n = e.length; n--;) if (Lt(e[n][0], t)) return n;
 		return -1;
 	}
-	function mt(e, t, n) {
+	function ht(e, t, n) {
 		var r = t(e);
-		return Rt(e) ? r : oe(r, n(e));
-	}
-	function ht(e) {
-		return e == null ? e === void 0 ? T : _ : Ee && Ee in Object(e) ? Ot(e) : Pt(e);
+		return zt(e) ? r : oe(r, n(e));
 	}
 	function gt(e) {
-		return Gt(e) && ht(e) == s;
+		return e == null ? e === void 0 ? T : _ : Ee && Ee in Object(e) ? kt(e) : Ft(e);
 	}
-	function _t(e, t, n, r, i) {
-		return e === t ? !0 : e == null || t == null || !Gt(e) && !Gt(t) ? e !== e && t !== t : vt(e, t, n, r, _t, i);
+	function _t(e) {
+		return Kt(e) && gt(e) == s;
 	}
-	function vt(e, t, n, r, a, o) {
-		var l = Rt(e), u = Rt(t), d = l ? c : At(e), f = u ? c : At(t);
+	function vt(e, t, n, r, i) {
+		return e === t ? !0 : e == null || t == null || !Kt(e) && !Kt(t) ? e !== e && t !== t : yt(e, t, n, r, vt, i);
+	}
+	function yt(e, t, n, r, a, o) {
+		var l = zt(e), u = zt(t), d = l ? c : jt(e), f = u ? c : jt(t);
 		d = d == s ? v : d, f = f == s ? v : f;
 		var p = d == v, m = f == v, h = d == f;
-		if (h && Bt(e)) {
-			if (!Bt(t)) return !1;
+		if (h && Vt(e)) {
+			if (!Vt(t)) return !1;
 			l = !0, p = !1;
 		}
-		if (h && !p) return o ||= new st(), l || Kt(e) ? St(e, t, n, r, a, o) : Ct(e, t, d, n, r, a, o);
+		if (h && !p) return o ||= new ct(), l || qt(e) ? Ct(e, t, n, r, a, o) : wt(e, t, d, n, r, a, o);
 		if (!(n & i)) {
 			var g = p && q.call(e, "__wrapped__"), _ = m && q.call(t, "__wrapped__");
 			if (g || _) {
 				var y = g ? e.value() : e, b = _ ? t.value() : t;
-				return o ||= new st(), a(y, b, n, r, o);
+				return o ||= new ct(), a(y, b, n, r, o);
 			}
 		}
-		return h ? (o ||= new st(), wt(e, t, n, r, a, o)) : !1;
-	}
-	function yt(e) {
-		return !Wt(e) || Nt(e) ? !1 : (Ht(e) ? xe : te).test(Ft(e));
+		return h ? (o ||= new ct(), Tt(e, t, n, r, a, o)) : !1;
 	}
 	function bt(e) {
-		return Gt(e) && Ut(e.length) && !!R[ht(e)];
+		return !Gt(e) || Pt(e) ? !1 : (Ut(e) ? xe : te).test(It(e));
 	}
 	function xt(e) {
-		if (!$(e)) return ke(e);
+		return Kt(e) && Wt(e.length) && !!R[gt(e)];
+	}
+	function St(e) {
+		if (!Q(e)) return ke(e);
 		var t = [];
 		for (var n in Object(e)) q.call(e, n) && n != "constructor" && t.push(n);
 		return t;
 	}
-	function St(e, t, n, r, o, s) {
+	function Ct(e, t, n, r, o, s) {
 		var c = n & i, l = e.length, u = t.length;
 		if (l != u && !(c && u > l)) return !1;
 		var d = s.get(e);
 		if (d && s.get(t)) return d == t;
-		var f = -1, p = !0, m = n & a ? new it() : void 0;
+		var f = -1, p = !0, m = n & a ? new at() : void 0;
 		for (s.set(e, t), s.set(t, e); ++f < l;) {
 			var h = e[f], g = t[f];
 			if (r) var _ = c ? r(g, h, f, t, e, s) : r(h, g, f, e, t, s);
@@ -5859,7 +5859,7 @@ Please double check that your authentication token is correct. Due to security r
 		}
 		return s.delete(e), s.delete(t), p;
 	}
-	function Ct(e, t, n, r, o, s, c) {
+	function wt(e, t, n, r, o, s, c) {
 		switch (n) {
 			case O:
 				if (e.byteLength != t.byteLength || e.byteOffset != t.byteOffset) return !1;
@@ -5867,7 +5867,7 @@ Please double check that your authentication token is correct. Due to security r
 			case D: return !(e.byteLength != t.byteLength || !s(new Ce(e), new Ce(t)));
 			case u:
 			case d:
-			case g: return It(+e, +t);
+			case g: return Lt(+e, +t);
 			case f: return e.name == t.name && e.message == t.message;
 			case x:
 			case C: return e == t + "";
@@ -5878,15 +5878,15 @@ Please double check that your authentication token is correct. Due to security r
 				var m = c.get(e);
 				if (m) return m == t;
 				r |= a, c.set(e, t);
-				var _ = St(l(e), l(t), r, o, s, c);
+				var _ = Ct(l(e), l(t), r, o, s, c);
 				return c.delete(e), _;
 			case w: if (He) return He.call(e) == He.call(t);
 		}
 		return !1;
 	}
-	function wt(e, t, n, r, a, o) {
-		var s = n & i, c = Tt(e), l = c.length;
-		if (l != Tt(t).length && !s) return !1;
+	function Tt(e, t, n, r, a, o) {
+		var s = n & i, c = Et(e), l = c.length;
+		if (l != Et(t).length && !s) return !1;
 		for (var u = l; u--;) {
 			var d = c[u];
 			if (!(s ? d in t : q.call(t, d))) return !1;
@@ -5911,18 +5911,18 @@ Please double check that your authentication token is correct. Due to security r
 		}
 		return o.delete(e), o.delete(t), p;
 	}
-	function Tt(e) {
-		return mt(e, qt, kt);
-	}
-	function Et(e, t) {
-		var n = e.__data__;
-		return Mt(t) ? n[typeof t == "string" ? "string" : "hash"] : n.map;
+	function Et(e) {
+		return ht(e, Jt, At);
 	}
 	function Dt(e, t) {
-		var n = de(e, t);
-		return yt(n) ? n : void 0;
+		var n = e.__data__;
+		return Nt(t) ? n[typeof t == "string" ? "string" : "hash"] : n.map;
 	}
-	function Ot(e) {
+	function Ot(e, t) {
+		var n = de(e, t);
+		return bt(n) ? n : void 0;
+	}
+	function kt(e) {
 		var t = q.call(e, Ee), n = e[Ee];
 		try {
 			e[Ee] = void 0;
@@ -5931,13 +5931,13 @@ Please double check that your authentication token is correct. Due to security r
 		var i = be.call(e);
 		return r && (t ? e[Ee] = n : delete e[Ee]), i;
 	}
-	var kt = De ? function(e) {
+	var At = De ? function(e) {
 		return e == null ? [] : (e = Object(e), ae(De(e), function(t) {
 			return we.call(e, t);
 		}));
-	} : Jt, At = ht;
-	(Ae && At(new Ae(/* @__PURE__ */ new ArrayBuffer(1))) != O || je && At(new je()) != h || Me && At(Me.resolve()) != y || Ne && At(new Ne()) != S || Pe && At(new Pe()) != E) && (At = function(e) {
-		var t = ht(e), n = t == v ? e.constructor : void 0, r = n ? Ft(n) : "";
+	} : Yt, jt = gt;
+	(Ae && jt(new Ae(/* @__PURE__ */ new ArrayBuffer(1))) != O || je && jt(new je()) != h || Me && jt(Me.resolve()) != y || Ne && jt(new Ne()) != S || Pe && jt(new Pe()) != E) && (jt = function(e) {
+		var t = gt(e), n = t == v ? e.constructor : void 0, r = n ? It(n) : "";
 		if (r) switch (r) {
 			case Ie: return O;
 			case Le: return h;
@@ -5947,24 +5947,24 @@ Please double check that your authentication token is correct. Due to security r
 		}
 		return t;
 	});
-	function jt(e, t) {
+	function Mt(e, t) {
 		return t ??= o, !!t && (typeof e == "number" || ne.test(e)) && e > -1 && e % 1 == 0 && e < t;
 	}
-	function Mt(e) {
+	function Nt(e) {
 		var t = typeof e;
 		return t == "string" || t == "number" || t == "symbol" || t == "boolean" ? e !== "__proto__" : e === null;
 	}
-	function Nt(e) {
+	function Pt(e) {
 		return !!ye && ye in e;
 	}
-	function $(e) {
+	function Q(e) {
 		var t = e && e.constructor;
 		return e === (typeof t == "function" && t.prototype || ge);
 	}
-	function Pt(e) {
+	function Ft(e) {
 		return be.call(e);
 	}
-	function Ft(e) {
+	function It(e) {
 		if (e != null) {
 			try {
 				return ve.call(e);
@@ -5975,50 +5975,50 @@ Please double check that your authentication token is correct. Due to security r
 		}
 		return "";
 	}
-	function It(e, t) {
+	function Lt(e, t) {
 		return e === t || e !== e && t !== t;
 	}
-	var Lt = gt(function() {
+	var Rt = _t(function() {
 		return arguments;
-	}()) ? gt : function(e) {
-		return Gt(e) && q.call(e, "callee") && !we.call(e, "callee");
-	}, Rt = Array.isArray;
-	function zt(e) {
-		return e != null && Ut(e.length) && !Ht(e);
+	}()) ? _t : function(e) {
+		return Kt(e) && q.call(e, "callee") && !we.call(e, "callee");
+	}, zt = Array.isArray;
+	function Bt(e) {
+		return e != null && Wt(e.length) && !Ut(e);
 	}
-	var Bt = Oe || Yt;
-	function Vt(e, t) {
-		return _t(e, t);
-	}
-	function Ht(e) {
-		if (!Wt(e)) return !1;
-		var t = ht(e);
-		return t == p || t == m || t == l || t == b;
+	var Vt = Oe || Xt;
+	function Ht(e, t) {
+		return vt(e, t);
 	}
 	function Ut(e) {
-		return typeof e == "number" && e > -1 && e % 1 == 0 && e <= o;
+		if (!Gt(e)) return !1;
+		var t = gt(e);
+		return t == p || t == m || t == l || t == b;
 	}
 	function Wt(e) {
+		return typeof e == "number" && e > -1 && e % 1 == 0 && e <= o;
+	}
+	function Gt(e) {
 		var t = typeof e;
 		return e != null && (t == "object" || t == "function");
 	}
-	function Gt(e) {
+	function Kt(e) {
 		return typeof e == "object" && !!e;
 	}
-	var Kt = ie ? le(ie) : bt;
-	function qt(e) {
-		return zt(e) ? Q(e) : xt(e);
-	}
-	function Jt() {
-		return [];
+	var qt = ie ? le(ie) : xt;
+	function Jt(e) {
+		return Bt(e) ? Z(e) : St(e);
 	}
 	function Yt() {
+		return [];
+	}
+	function Xt() {
 		return !1;
 	}
-	t.exports = Vt;
-})), Ot = /* @__PURE__ */ o(((e) => {
+	t.exports = Ht;
+})), kt = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.DownloadedUpdateHelper = void 0, e.createTempUpdateFile = c;
-	var t = s("crypto"), n = s("fs"), r = Dt(), i = z(), a = s("path");
+	var t = s("crypto"), n = s("fs"), r = Ot(), i = z(), a = s("path");
 	e.DownloadedUpdateHelper = class {
 		constructor(e) {
 			this.cacheDir = e, this._file = null, this._packageFile = null, this.versionInfo = null, this.fileInfo = null, this._downloadedFileInfo = null;
@@ -6097,16 +6097,16 @@ Please double check that your authentication token is correct. Due to security r
 		}
 		return o;
 	}
-})), kt = /* @__PURE__ */ o(((e) => {
+})), At = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.getAppCacheDir = r;
 	var t = s("path"), n = s("os");
 	function r() {
 		let e = (0, n.homedir)(), r;
 		return r = process.platform === "win32" ? process.env.LOCALAPPDATA || t.join(e, "AppData", "Local") : process.platform === "darwin" ? t.join(e, "Library", "Caches") : process.env.XDG_CACHE_HOME || t.join(e, ".cache"), r;
 	}
-})), At = /* @__PURE__ */ o(((e) => {
+})), jt = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.ElectronAppAdapter = void 0;
-	var t = s("path"), n = kt();
+	var t = s("path"), n = At();
 	e.ElectronAppAdapter = class {
 		constructor(e = s("electron").app) {
 			this.app = e;
@@ -6142,7 +6142,7 @@ Please double check that your authentication token is correct. Due to security r
 			this.app.once("quit", (t, n) => e(n));
 		}
 	};
-})), jt = /* @__PURE__ */ o(((e) => {
+})), Mt = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.ElectronHttpExecutor = e.NET_SESSION_NAME = void 0, e.getNetSession = n;
 	var t = K();
 	e.NET_SESSION_NAME = "electron-updater";
@@ -6184,7 +6184,7 @@ Please double check that your authentication token is correct. Due to security r
 			});
 		}
 	};
-})), Mt = /* @__PURE__ */ o(((e) => {
+})), Nt = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.newBaseUrl = n, e.newUrlFromBase = r, e.getChannelFilename = i;
 	var t = s("url");
 	function n(e) {
@@ -6198,7 +6198,7 @@ Please double check that your authentication token is correct. Due to security r
 	function i(e) {
 		return `${e}.yml`;
 	}
-})), Nt = /* @__PURE__ */ o(((e, t) => {
+})), Pt = /* @__PURE__ */ o(((e, t) => {
 	var n = Infinity, r = "[object Symbol]", i = /[\\^$.*+?()[\]{}|]/g, a = RegExp(i.source), o = typeof global == "object" && global && global.Object === Object && global, s = typeof self == "object" && self && self.Object === Object && self, c = o || s || Function("return this")(), l = Object.prototype.toString, u = c.Symbol, d = u ? u.prototype : void 0, f = d ? d.toString : void 0;
 	function p(e) {
 		if (typeof e == "string") return e;
@@ -6219,9 +6219,9 @@ Please double check that your authentication token is correct. Due to security r
 		return e = g(e), e && a.test(e) ? e.replace(i, "\\$&") : e;
 	}
 	t.exports = _;
-})), $ = /* @__PURE__ */ o(((e) => {
+})), Q = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.Provider = void 0, e.findFile = o, e.parseUpdateInfo = c, e.getFileList = l, e.resolveFiles = u;
-	var t = K(), n = Re(), r = s("url"), i = Mt(), a = Nt();
+	var t = K(), n = Re(), r = s("url"), i = Nt(), a = Pt();
 	e.Provider = class {
 		constructor(e) {
 			this.runtimeOptions = e, this.requestHeaders = null, this.executor = e.executor;
@@ -6300,9 +6300,9 @@ Please double check that your authentication token is correct. Due to security r
 			path: (0, i.newUrlFromBase)(r(s.path), n).href
 		}), a;
 	}
-})), Pt = /* @__PURE__ */ o(((e) => {
+})), Ft = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.GenericProvider = void 0;
-	var t = K(), n = Mt(), r = $();
+	var t = K(), n = Nt(), r = Q();
 	e.GenericProvider = class extends r.Provider {
 		constructor(e, t, r) {
 			super(r), this.configuration = e, this.updater = t, this.baseUrl = (0, n.newBaseUrl)(this.configuration.url);
@@ -6334,9 +6334,9 @@ Please double check that your authentication token is correct. Due to security r
 			return (0, r.resolveFiles)(e, this.baseUrl);
 		}
 	};
-})), Ft = /* @__PURE__ */ o(((e) => {
+})), It = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.BitbucketProvider = void 0;
-	var t = K(), n = Mt(), r = $();
+	var t = K(), n = Nt(), r = Q();
 	e.BitbucketProvider = class extends r.Provider {
 		constructor(e, t, r) {
 			super({
@@ -6366,9 +6366,9 @@ Please double check that your authentication token is correct. Due to security r
 			return `Bitbucket (owner: ${e}, slug: ${t}, channel: ${this.channel})`;
 		}
 	};
-})), It = /* @__PURE__ */ o(((e) => {
+})), Lt = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.GitHubProvider = e.BaseGitHubProvider = void 0, e.computeReleaseNotes = u;
-	var t = K(), n = Et(), r = s("url"), i = Mt(), a = $(), o = /\/tag\/(v?[^/]+)$/, c = class extends a.Provider {
+	var t = K(), n = Dt(), r = s("url"), i = Nt(), a = Q(), o = /\/tag\/(v?[^/]+)$/, c = class extends a.Provider {
 		constructor(e, n, r) {
 			super({
 				...r,
@@ -6496,9 +6496,9 @@ Please double check that your authentication token is correct. Due to security r
 		}
 		return s.sort((e, t) => n.rcompare(e.version, t.version));
 	}
-})), Lt = /* @__PURE__ */ o(((e) => {
+})), Rt = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.GitLabProvider = void 0;
-	var t = K(), n = s("url"), r = Nt(), i = Mt(), a = $();
+	var t = K(), n = s("url"), r = Pt(), i = Nt(), a = Q();
 	e.GitLabProvider = class extends a.Provider {
 		normalizeFilename(e) {
 			return e.replace(/ |_/g, "-");
@@ -6638,9 +6638,9 @@ Please double check that your authentication token is correct. Due to security r
 			return `GitLab (projectId: ${this.options.projectId}, channel: ${this.channel})`;
 		}
 	};
-})), Rt = /* @__PURE__ */ o(((e) => {
+})), zt = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.KeygenProvider = void 0;
-	var t = K(), n = Mt(), r = $();
+	var t = K(), n = Nt(), r = Q();
 	e.KeygenProvider = class extends r.Provider {
 		constructor(e, t, r) {
 			super({
@@ -6673,9 +6673,9 @@ Please double check that your authentication token is correct. Due to security r
 			return `Keygen (account: ${e}, product: ${t}, platform: ${n}, channel: ${this.channel})`;
 		}
 	};
-})), zt = /* @__PURE__ */ o(((e) => {
+})), Bt = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.PrivateGitHubProvider = void 0;
-	var t = K(), n = Re(), r = s("path"), i = s("url"), a = Mt(), o = It(), c = $();
+	var t = K(), n = Re(), r = s("path"), i = s("url"), a = Nt(), o = Lt(), c = Q();
 	e.PrivateGitHubProvider = class extends o.BaseGitHubProvider {
 		constructor(e, t, n, r) {
 			super(e, "api.github.com", r), this.updater = t, this.token = n;
@@ -6732,9 +6732,9 @@ Please double check that your authentication token is correct. Due to security r
 			});
 		}
 	};
-})), Bt = /* @__PURE__ */ o(((e) => {
+})), Vt = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.isUrlProbablySupportMultiRangeRequests = c, e.createClient = l;
-	var t = K(), n = Ft(), r = Pt(), i = It(), a = Lt(), o = Rt(), s = zt();
+	var t = K(), n = It(), r = Ft(), i = Lt(), a = Rt(), o = zt(), s = Bt();
 	function c(e) {
 		return !e.includes("s3.amazonaws.com");
 	}
@@ -6773,7 +6773,7 @@ Please double check that your authentication token is correct. Due to security r
 			default: throw (0, t.newError)(`Unsupported provider: ${d}`, "ERR_UPDATER_UNSUPPORTED_PROVIDER");
 		}
 	}
-})), Vt = /* @__PURE__ */ o(((e) => {
+})), Ht = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.OperationKind = void 0, e.computeOperations = n;
 	var t;
 	(function(e) {
@@ -6834,9 +6834,9 @@ Please double check that your authentication token is correct. Due to security r
 		for (let n of e) t.set(n.name, n);
 		return t;
 	}
-})), Ht = /* @__PURE__ */ o(((e) => {
+})), Ut = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.DataSplitter = void 0, e.copyData = c;
-	var t = K(), n = s("fs"), r = s("stream"), i = Vt(), a = Buffer.from("\r\n\r\n"), o;
+	var t = K(), n = s("fs"), r = s("stream"), i = Ht(), a = Buffer.from("\r\n\r\n"), o;
 	(function(e) {
 		e[e.INIT = 0] = "INIT", e[e.HEADER = 1] = "HEADER", e[e.BODY = 2] = "BODY";
 	})(o ||= {});
@@ -6962,9 +6962,9 @@ Please double check that your authentication token is correct. Due to security r
 			});
 		}
 	};
-})), Ut = /* @__PURE__ */ o(((e) => {
+})), Wt = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.executeTasksUsingMultipleRangeRequests = i, e.checkIsRangesSupported = o;
-	var t = K(), n = Ht(), r = Vt();
+	var t = K(), n = Ut(), r = Ht();
 	function i(e, t, n, r, i) {
 		let o = (s) => {
 			if (s >= t.length) {
@@ -7033,7 +7033,7 @@ Please double check that your authentication token is correct. Due to security r
 		}
 		return !0;
 	}
-})), Wt = /* @__PURE__ */ o(((e) => {
+})), Gt = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.ProgressDifferentialDownloadCallbackTransform = void 0;
 	var t = s("stream"), n;
 	(function(e) {
@@ -7090,9 +7090,9 @@ Please double check that your authentication token is correct. Due to security r
 			}), this.delta = 0, this.transferred = 0, e(null);
 		}
 	};
-})), Gt = /* @__PURE__ */ o(((e) => {
+})), Kt = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.DifferentialDownloader = void 0;
-	var t = K(), n = z(), r = s("fs"), i = Ht(), a = s("url"), o = Vt(), c = Ut(), l = Wt();
+	var t = K(), n = z(), r = s("fs"), i = Ut(), a = s("url"), o = Ht(), c = Wt(), l = Gt();
 	e.DifferentialDownloader = class {
 		constructor(e, t, n) {
 			this.blockAwareFileInfo = e, this.httpExecutor = t, this.options = n, this.fileMetadataBuffer = null, this.logger = n.logger;
@@ -7233,15 +7233,15 @@ Please double check that your authentication token is correct. Due to security r
 		let t = e.indexOf("?");
 		return t < 0 ? e : e.substring(0, t);
 	}
-})), Kt = /* @__PURE__ */ o(((e) => {
+})), qt = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.GenericDifferentialDownloader = void 0;
-	var t = Gt();
+	var t = Kt();
 	e.GenericDifferentialDownloader = class extends t.DifferentialDownloader {
 		download(e, t) {
 			return this.doDownload(e, t);
 		}
 	};
-})), qt = /* @__PURE__ */ o(((e) => {
+})), Jt = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.UpdaterSignal = e.UPDATE_DOWNLOADED = e.DOWNLOAD_PROGRESS = e.CancellationToken = void 0, e.addHandler = n;
 	var t = K();
 	Object.defineProperty(e, "CancellationToken", {
@@ -7269,9 +7269,9 @@ Please double check that your authentication token is correct. Due to security r
 	function n(e, t, n) {
 		e.on(t, n);
 	}
-})), Jt = /* @__PURE__ */ o(((e) => {
+})), Yt = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.NoOpLogger = e.AppUpdater = void 0;
-	var t = K(), n = s("crypto"), r = s("os"), i = s("events"), a = z(), o = Re(), c = ze(), l = s("path"), u = Et(), d = Ot(), f = At(), p = jt(), m = Pt(), h = Bt(), g = s("zlib"), _ = Kt(), v = qt();
+	var t = K(), n = s("crypto"), r = s("os"), i = s("events"), a = z(), o = Re(), c = ze(), l = s("path"), u = Dt(), d = kt(), f = jt(), p = Mt(), m = Ft(), h = Vt(), g = s("zlib"), _ = qt(), v = Jt();
 	e.AppUpdater = class e extends i.EventEmitter {
 		get channel() {
 			return this._channel;
@@ -7600,9 +7600,9 @@ Please double check that your authentication token is correct. Due to security r
 		error(e) {}
 	};
 	e.NoOpLogger = b;
-})), Yt = /* @__PURE__ */ o(((e) => {
+})), Xt = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.BaseUpdater = void 0;
-	var t = s("child_process"), n = s("path"), r = Jt();
+	var t = s("child_process"), n = s("path"), r = Yt();
 	e.BaseUpdater = class extends r.AppUpdater {
 		constructor(e, t) {
 			super(e, t), this.quitAndInstallCalled = !1, this.quitHandlerAdded = !1;
@@ -7690,9 +7690,9 @@ Please double check that your authentication token is correct. Due to security r
 			});
 		}
 	};
-})), Xt = /* @__PURE__ */ o(((e) => {
+})), Zt = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.FileWithEmbeddedBlockMapDifferentialDownloader = void 0;
-	var t = z(), n = Gt(), r = s("zlib");
+	var t = z(), n = Kt(), r = s("zlib");
 	e.FileWithEmbeddedBlockMapDifferentialDownloader = class extends n.DifferentialDownloader {
 		async download() {
 			let e = this.blockAwareFileInfo, t = e.size, n = t - (e.blockMapSize + 4);
@@ -7715,9 +7715,9 @@ Please double check that your authentication token is correct. Due to security r
 			throw await (0, t.close)(n), e;
 		}
 	}
-})), Zt = /* @__PURE__ */ o(((e) => {
+})), Qt = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.AppImageUpdater = void 0;
-	var t = K(), n = s("child_process"), r = z(), i = s("fs"), a = s("path"), o = Yt(), c = Xt(), l = $(), u = qt();
+	var t = K(), n = s("child_process"), r = z(), i = s("fs"), a = s("path"), o = Xt(), c = Zt(), l = Q(), u = Jt();
 	e.AppImageUpdater = class extends o.BaseUpdater {
 		constructor(e, t) {
 			super(e, t);
@@ -7777,9 +7777,9 @@ Please double check that your authentication token is correct. Due to security r
 			return e.isForceRunAfter ? this.spawnLog(o, [], l) : (l.APPIMAGE_EXIT_AFTER_INSTALL = "true", (0, n.execFileSync)(o, [], { env: l })), !0;
 		}
 	};
-})), Qt = /* @__PURE__ */ o(((e) => {
+})), $t = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.LinuxUpdater = void 0;
-	var t = Yt(), n = /^[a-zA-Z0-9_-]+$/;
+	var t = Xt(), n = /^[a-zA-Z0-9_-]+$/;
 	e.LinuxUpdater = class extends t.BaseUpdater {
 		constructor(e, t) {
 			super(e, t);
@@ -7831,9 +7831,9 @@ Please double check that your authentication token is correct. Due to security r
 			return this._logger.warn(`No package manager found in the list: ${i}${e.join(", ")}. Utilizing default: ${a}`), a;
 		}
 	};
-})), $t = /* @__PURE__ */ o(((e) => {
+})), en = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.DebUpdater = void 0;
-	var t = $(), n = qt(), r = Qt();
+	var t = Q(), n = Jt(), r = $t();
 	e.DebUpdater = class e extends r.LinuxUpdater {
 		constructor(e, t) {
 			super(e, t);
@@ -7892,9 +7892,9 @@ Please double check that your authentication token is correct. Due to security r
 			else throw Error(`Package manager ${e} not supported`);
 		}
 	};
-})), en = /* @__PURE__ */ o(((e) => {
+})), tn = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.PacmanUpdater = void 0;
-	var t = qt(), n = $(), r = Qt();
+	var t = Jt(), n = Q(), r = $t();
 	e.PacmanUpdater = class e extends r.LinuxUpdater {
 		constructor(e, t) {
 			super(e, t);
@@ -7951,9 +7951,9 @@ Please double check that your authentication token is correct. Due to security r
 			}
 		}
 	};
-})), tn = /* @__PURE__ */ o(((e) => {
+})), nn = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.RpmUpdater = void 0;
-	var t = qt(), n = $(), r = Qt();
+	var t = Jt(), n = Q(), r = $t();
 	e.RpmUpdater = class e extends r.LinuxUpdater {
 		constructor(e, t) {
 			super(e, t);
@@ -8024,9 +8024,9 @@ Please double check that your authentication token is correct. Due to security r
 			throw Error(`Package manager ${e} not supported`);
 		}
 	};
-})), nn = /* @__PURE__ */ o(((e) => {
+})), rn = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.MacUpdater = void 0;
-	var t = K(), n = z(), r = s("fs"), i = s("path"), a = s("http"), o = Jt(), c = $(), l = s("child_process"), u = s("crypto");
+	var t = K(), n = z(), r = s("fs"), i = s("path"), a = s("http"), o = Yt(), c = Q(), l = s("child_process"), u = s("crypto");
 	e.MacUpdater = class e extends o.AppUpdater {
 		constructor(e, t) {
 			super(e, t), this.nativeUpdater = s("electron").autoUpdater, this.squirrelDownloadedUpdate = !1, this.nativeUpdater.on("error", (e) => {
@@ -8154,7 +8154,7 @@ Please double check that your authentication token is correct. Due to security r
 			this.squirrelDownloadedUpdate ? this.handleUpdateDownloaded() : (this.nativeUpdater.on("update-downloaded", () => this.handleUpdateDownloaded()), this.autoInstallOnAppQuit || this.nativeUpdater.checkForUpdates());
 		}
 	};
-})), rn = /* @__PURE__ */ o(((e) => {
+})), an = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.verifySignature = o;
 	var t = K(), n = s("child_process"), r = s("os"), i = s("path");
 	function a(e, t) {
@@ -8235,9 +8235,9 @@ Please double check that your authentication token is correct. Due to security r
 		let e = r.release();
 		return e.startsWith("6.") && !e.startsWith("6.3");
 	}
-})), an = /* @__PURE__ */ o(((e) => {
+})), on = /* @__PURE__ */ o(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.NsisUpdater = void 0;
-	var t = K(), n = s("path"), r = Yt(), i = Xt(), a = qt(), o = $(), c = z(), l = rn(), u = s("url");
+	var t = K(), n = s("path"), r = Xt(), i = Zt(), a = Jt(), o = Q(), c = z(), l = an(), u = s("url");
 	e.NsisUpdater = class extends r.BaseUpdater {
 		constructor(e, t) {
 			super(e, t), this._verifyUpdateCodeSignature = (e, t) => (0, l.verifySignature)(e, t, this._logger);
@@ -8319,7 +8319,7 @@ Please double check that your authentication token is correct. Due to security r
 			return !1;
 		}
 	};
-})), on = (/* @__PURE__ */ o(((e) => {
+})), sn = (/* @__PURE__ */ o(((e) => {
 	var t = e && e.__createBinding || (Object.create ? (function(e, t, n, r) {
 		r === void 0 && (r = n);
 		var i = Object.getOwnPropertyDescriptor(t, n);
@@ -8335,14 +8335,14 @@ Please double check that your authentication token is correct. Due to security r
 		for (var r in e) r !== "default" && !Object.prototype.hasOwnProperty.call(n, r) && t(n, e, r);
 	};
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.NsisUpdater = e.MacUpdater = e.RpmUpdater = e.PacmanUpdater = e.DebUpdater = e.AppImageUpdater = e.Provider = e.NoOpLogger = e.AppUpdater = e.BaseUpdater = void 0;
-	var r = z(), i = s("path"), a = Yt();
+	var r = z(), i = s("path"), a = Xt();
 	Object.defineProperty(e, "BaseUpdater", {
 		enumerable: !0,
 		get: function() {
 			return a.BaseUpdater;
 		}
 	});
-	var o = Jt();
+	var o = Yt();
 	Object.defineProperty(e, "AppUpdater", {
 		enumerable: !0,
 		get: function() {
@@ -8354,73 +8354,73 @@ Please double check that your authentication token is correct. Due to security r
 			return o.NoOpLogger;
 		}
 	});
-	var c = $();
+	var c = Q();
 	Object.defineProperty(e, "Provider", {
 		enumerable: !0,
 		get: function() {
 			return c.Provider;
 		}
 	});
-	var l = Zt();
+	var l = Qt();
 	Object.defineProperty(e, "AppImageUpdater", {
 		enumerable: !0,
 		get: function() {
 			return l.AppImageUpdater;
 		}
 	});
-	var u = $t();
+	var u = en();
 	Object.defineProperty(e, "DebUpdater", {
 		enumerable: !0,
 		get: function() {
 			return u.DebUpdater;
 		}
 	});
-	var d = en();
+	var d = tn();
 	Object.defineProperty(e, "PacmanUpdater", {
 		enumerable: !0,
 		get: function() {
 			return d.PacmanUpdater;
 		}
 	});
-	var f = tn();
+	var f = nn();
 	Object.defineProperty(e, "RpmUpdater", {
 		enumerable: !0,
 		get: function() {
 			return f.RpmUpdater;
 		}
 	});
-	var p = nn();
+	var p = rn();
 	Object.defineProperty(e, "MacUpdater", {
 		enumerable: !0,
 		get: function() {
 			return p.MacUpdater;
 		}
 	});
-	var m = an();
+	var m = on();
 	Object.defineProperty(e, "NsisUpdater", {
 		enumerable: !0,
 		get: function() {
 			return m.NsisUpdater;
 		}
-	}), n(qt(), e);
+	}), n(Jt(), e);
 	var h;
 	function g() {
-		if (process.platform === "win32") h = new (an()).NsisUpdater();
-		else if (process.platform === "darwin") h = new (nn()).MacUpdater();
+		if (process.platform === "win32") h = new (on()).NsisUpdater();
+		else if (process.platform === "darwin") h = new (rn()).MacUpdater();
 		else {
-			h = new (Zt()).AppImageUpdater();
+			h = new (Qt()).AppImageUpdater();
 			try {
 				let e = i.join(process.resourcesPath, "package-type");
 				if (!(0, r.existsSync)(e)) return h;
 				switch ((0, r.readFileSync)(e).toString().trim()) {
 					case "deb":
-						h = new ($t()).DebUpdater();
+						h = new (en()).DebUpdater();
 						break;
 					case "rpm":
-						h = new (tn()).RpmUpdater();
+						h = new (nn()).RpmUpdater();
 						break;
 					case "pacman":
-						h = new (en()).PacmanUpdater();
+						h = new (tn()).PacmanUpdater();
 						break;
 					default: break;
 				}
@@ -8436,31 +8436,39 @@ Please double check that your authentication token is correct. Due to security r
 	});
 })))();
 e(import.meta.url);
-var sn = a.dirname(i(import.meta.url));
-process.env.APP_ROOT = a.join(sn, "..");
-var cn = process.env.VITE_DEV_SERVER_URL, ln = a.join(process.env.APP_ROOT, "dist-electron"), un = a.join(process.env.APP_ROOT, "dist");
-process.env.VITE_PUBLIC = cn ? a.join(process.env.APP_ROOT, "public") : un;
-var dn;
+var cn = a.dirname(i(import.meta.url));
+process.env.APP_ROOT = a.join(cn, "..");
+var ln = process.env.VITE_DEV_SERVER_URL, un = a.join(process.env.APP_ROOT, "dist-electron"), dn = a.join(process.env.APP_ROOT, "dist");
+process.env.VITE_PUBLIC = ln ? a.join(process.env.APP_ROOT, "public") : dn;
+var $;
 function fn() {
-	dn = new t({
+	$ = new t({
 		icon: a.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
-		webPreferences: { preload: a.join(sn, "preload.js") }
-	}), dn.maximize(), dn.webContents.on("did-finish-load", () => {
-		dn?.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
-	}), cn ? dn.loadURL(cn) : dn.loadFile(a.join(un, "index.html")), on.autoUpdater.checkForUpdatesAndNotify(), on.autoUpdater.on("update-available", () => {
-		dn?.webContents.send("update-available");
-	}), on.autoUpdater.on("update-downloaded", () => {
-		dn?.webContents.send("update-downloaded");
+		webPreferences: { preload: a.join(cn, "preload.js") }
+	}), $.maximize(), $.webContents.on("did-finish-load", () => {
+		$?.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
+	}), ln ? $.loadURL(ln) : $.loadFile(a.join(dn, "index.html")), setTimeout(() => {
+		sn.autoUpdater.checkForUpdatesAndNotify();
+	}, 3e3), sn.autoUpdater.on("update-available", () => {
+		$?.webContents.send("update-available");
+	}), sn.autoUpdater.on("update-downloaded", () => {
+		$?.webContents.send("update-downloaded");
+	}), sn.autoUpdater.on("error", (e) => {
+		$?.webContents.send("update-error", e == null ? "unknown" : (e.stack || e).toString());
+	}), sn.autoUpdater.on("update-not-available", () => {
+		$?.webContents.send("update-error", "No new updates found on GitHub.");
 	});
 }
 n.on("window-all-closed", () => {
-	process.platform !== "darwin" && (n.quit(), dn = null);
+	process.platform !== "darwin" && (n.quit(), $ = null);
 }), n.on("activate", () => {
 	t.getAllWindows().length === 0 && fn();
 }), n.whenReady().then(() => {
 	fn();
 }), r.on("restart_app", () => {
-	on.autoUpdater.quitAndInstall();
+	sn.autoUpdater.quitAndInstall();
+}), r.on("check_for_updates", () => {
+	sn.autoUpdater.checkForUpdatesAndNotify();
 });
 //#endregion
-export { ln as MAIN_DIST, un as RENDERER_DIST, cn as VITE_DEV_SERVER_URL };
+export { un as MAIN_DIST, dn as RENDERER_DIST, ln as VITE_DEV_SERVER_URL };

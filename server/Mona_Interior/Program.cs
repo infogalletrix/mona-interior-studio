@@ -24,10 +24,10 @@ builder.Services.AddCors(options =>
     });
 });
 
-// 3. SQLITE via EF Core
+// 3. MYSQL via EF Core
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<MonainteriorDbContext>(options =>
-    options.UseSqlite(connectionString));
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 // 4. CONFIGURE PORT 5000
 

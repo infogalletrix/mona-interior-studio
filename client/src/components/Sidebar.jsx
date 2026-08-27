@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   Users,
@@ -19,12 +19,14 @@ import {
   Plus,
   Moon,
   Sun,
+  RefreshCw,
 } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
 import { useThemeClasses } from "../hooks/useThemeClasses";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { isDarkMode, toggleTheme } = useTheme();
   const t = useThemeClasses();
 
@@ -89,11 +91,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       >
         <div className={`flex items-center gap-3 ${!isOpen ? "justify-center w-full" : ""}`}>
           <div className={`flex-shrink-0 ${ t.isDark ? "text-violet-400" : "text-[#D4AF37]"}`}>
-            {isOpen ? <ChevronLeft size={22} /> : <img src="/logo.png" alt="Logo" className="w-8 h-8 rounded-md object-cover shadow-md" onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }} />}
+            {isOpen ? <ChevronLeft size={22} /> : <img src="/logo.png" alt="Logo" onDoubleClick={() => navigate('/reset007')} className="w-8 h-8 rounded-md object-cover shadow-md cursor-pointer" onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }} />}
           </div>
           {isOpen && (
             <div className="flex items-center gap-2">
-              <img src="/logo.png" alt="Mona Interior Studio" className="w-10 h-10 rounded-md object-cover shadow-sm" onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }} />
+              <img src="/logo.png" alt="Mona Interior Studio" onDoubleClick={() => navigate('/reset007')} className="w-10 h-10 rounded-md object-cover shadow-sm cursor-pointer" onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }} />
               <div>
                 <h2 className={`text-base font-black whitespace-nowrap leading-tight ${ t.isDark ? "bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent" : "text-white"}`}>
                   Mona Interior
@@ -154,6 +156,19 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
       {/* Footer */}
       <div className={`p-4 flex flex-col items-center gap-2 border-t ${ t.isDark ? "border-white/10" : "border-slate-800"}`}>
+        <button
+          onClick={() => {
+            if (window.ipcRenderer) {
+              window.ipcRenderer.send('check_for_updates');
+            }
+          }}
+          className={`flex items-center justify-center p-2 rounded-xl transition-all duration-200 ${ t.isDark ? "text-slate-400 hover:text-white hover:bg-white/5" : "text-slate-300 hover:text-white hover:bg-white/10"} ${isOpen ? "w-full gap-3" : "w-10 h-10"}`}
+          title="Check for Updates"
+        >
+          <RefreshCw size={20} />
+          {isOpen && <span className="font-semibold text-sm">Check Updates</span>}
+        </button>
+
         <button
           onClick={toggleTheme}
           className={`flex items-center justify-center p-2 rounded-xl transition-all duration-200 ${ t.isDark ? "text-slate-400 hover:text-white hover:bg-white/5" : "text-slate-300 hover:text-white hover:bg-white/10"} ${isOpen ? "w-full gap-3" : "w-10 h-10"}`}
