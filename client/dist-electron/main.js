@@ -8434,20 +8434,18 @@ Please double check that your authentication token is correct. Due to security r
 		enumerable: !0,
 		get: () => h || g()
 	});
-})))();
-e(import.meta.url);
-var cn = a.dirname(i(import.meta.url));
-process.env.APP_ROOT = a.join(cn, "..");
-var ln = process.env.VITE_DEV_SERVER_URL, un = a.join(process.env.APP_ROOT, "dist-electron"), dn = a.join(process.env.APP_ROOT, "dist");
-process.env.VITE_PUBLIC = ln ? a.join(process.env.APP_ROOT, "public") : dn;
+})))(), cn = e(import.meta.url), ln = a.dirname(i(import.meta.url));
+process.env.APP_ROOT = a.join(ln, "..");
+var un = process.env.VITE_DEV_SERVER_URL, dn = a.join(process.env.APP_ROOT, "dist-electron"), fn = a.join(process.env.APP_ROOT, "dist");
+process.env.VITE_PUBLIC = un ? a.join(process.env.APP_ROOT, "public") : fn;
 var $;
-function fn() {
+function pn() {
 	$ = new t({
 		icon: a.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
-		webPreferences: { preload: a.join(cn, "preload.js") }
+		webPreferences: { preload: a.join(ln, "preload.js") }
 	}), $.maximize(), $.webContents.on("did-finish-load", () => {
 		$?.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
-	}), ln ? $.loadURL(ln) : $.loadFile(a.join(dn, "index.html")), setTimeout(() => {
+	}), un ? $.loadURL(un) : $.loadFile(a.join(fn, "index.html")), setTimeout(() => {
 		sn.autoUpdater.checkForUpdatesAndNotify();
 	}, 3e3), sn.autoUpdater.on("update-available", () => {
 		$?.webContents.send("update-available");
@@ -8462,13 +8460,43 @@ function fn() {
 n.on("window-all-closed", () => {
 	process.platform !== "darwin" && (n.quit(), $ = null);
 }), n.on("activate", () => {
-	t.getAllWindows().length === 0 && fn();
+	t.getAllWindows().length === 0 && pn();
 }), n.whenReady().then(() => {
-	fn();
+	pn();
 }), r.on("restart_app", () => {
 	sn.autoUpdater.quitAndInstall();
 }), r.on("check_for_updates", () => {
 	sn.autoUpdater.checkForUpdatesAndNotify();
+}), r.on("save_pdf_backup", async (e, { html: n, filename: r }) => {
+	try {
+		let e = cn("fs"), i = cn("path"), a = cn("os"), o = "C:\\Mona Interiors Documents";
+		e.existsSync(o) || e.mkdirSync(o, { recursive: !0 });
+		let s = i.join(o, r), c = i.join(a.tmpdir(), `temp_print_${Date.now()}.html`), l = process.env.VITE_PUBLIC ? process.env.VITE_PUBLIC.replace(/\\/g, "/") : "", u = n.replace(/src="\.\//g, `src="file:///${l}/`);
+		e.writeFileSync(c, u);
+		let d = new t({
+			show: !1,
+			webPreferences: {
+				nodeIntegration: !1,
+				contextIsolation: !0
+			}
+		});
+		await d.loadFile(c), setTimeout(async () => {
+			try {
+				let t = await d.webContents.printToPDF({
+					printBackground: !0,
+					pageSize: "A4",
+					marginType: 1
+				});
+				e.writeFileSync(s, t);
+			} catch (e) {
+				console.error("Failed to generate PDF:", e);
+			} finally {
+				d.isDestroyed() || d.destroy(), e.existsSync(c) && e.unlinkSync(c);
+			}
+		}, 1500);
+	} catch (e) {
+		console.error("Error saving PDF backup:", e);
+	}
 });
 //#endregion
-export { un as MAIN_DIST, dn as RENDERER_DIST, ln as VITE_DEV_SERVER_URL };
+export { dn as MAIN_DIST, fn as RENDERER_DIST, un as VITE_DEV_SERVER_URL };

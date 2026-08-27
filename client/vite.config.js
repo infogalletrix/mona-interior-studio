@@ -13,18 +13,9 @@ export default defineConfig({
         entry: "electron/main.js",
       },
       {
-        entry: "electron/preload.js",
+        entry: "electron/preload.mjs",
         onstart(options) {
           options.reload()
-        },
-        vite: {
-          build: {
-            rollupOptions: {
-              output: {
-                format: 'cjs'
-              }
-            }
-          }
         }
       },
     ]),
