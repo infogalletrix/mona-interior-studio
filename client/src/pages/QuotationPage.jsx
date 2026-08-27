@@ -143,7 +143,18 @@ export default function QuotationPage() {
 
   const componentRef = useRef();
   const descRef = useRef();
-  const handlePrint = useReactToPrint({ contentRef: componentRef });
+  const handlePrint = useReactToPrint({ 
+    contentRef: componentRef,
+    print: async (target) => {
+      const html = target.contentDocument.documentElement.outerHTML;
+      const filename = `Quotation_${quoteNo ? quoteNo.replace(/\//g, '-') : Date.now()}.pdf`;
+      if (window.ipcRenderer) window.ipcRenderer.send('save_pdf_backup', { html, filename });
+      return new Promise((resolve) => {
+        target.contentWindow.print();
+        resolve();
+      });
+    }
+  });
 
   useEffect(() => {
     if (location.state?.newSession) {

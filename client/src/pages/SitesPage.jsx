@@ -57,11 +57,29 @@ export default function SitesPage() {
   const handlePrintSettlement = useReactToPrint({
     contentRef: settlementRef,
     documentTitle: `Final_Settlement_WO_${selectedSiteId}`,
+    print: async (target) => {
+      const html = target.contentDocument.documentElement.outerHTML;
+      const filename = `Final_Settlement_WO_${selectedSiteId || Date.now()}.pdf`;
+      if (window.ipcRenderer) window.ipcRenderer.send('save_pdf_backup', { html, filename });
+      return new Promise((resolve) => {
+        target.contentWindow.print();
+        resolve();
+      });
+    }
   });
 
   const handlePrintCertificate = useReactToPrint({
     contentRef: certificateRef,
     documentTitle: `Completion_Certificate_WO_${selectedSiteId}`,
+    print: async (target) => {
+      const html = target.contentDocument.documentElement.outerHTML;
+      const filename = `Completion_Certificate_WO_${selectedSiteId || Date.now()}.pdf`;
+      if (window.ipcRenderer) window.ipcRenderer.send('save_pdf_backup', { html, filename });
+      return new Promise((resolve) => {
+        target.contentWindow.print();
+        resolve();
+      });
+    }
   });
 
   // Modals

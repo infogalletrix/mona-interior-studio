@@ -132,7 +132,18 @@ export default function SalaryPage() {
   });
 
   const componentRef = useRef();
-  const handlePrint = useReactToPrint({ contentRef: componentRef });
+  const handlePrint = useReactToPrint({ 
+    contentRef: componentRef,
+    print: async (target) => {
+      const html = target.contentDocument.documentElement.outerHTML;
+      const filename = `Payslip_${printData?.name ? printData.name.replace(/\s+/g, "_") : Date.now()}.pdf`;
+      if (window.ipcRenderer) window.ipcRenderer.send('save_pdf_backup', { html, filename });
+      return new Promise((resolve) => {
+        target.contentWindow.print();
+        resolve();
+      });
+    }
+  });
 
   // Dynamic Calculation for Basic based on Wage Type
   useEffect(() => {

@@ -31,7 +31,26 @@ export default function HistoryPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [previewInvoice, setPreviewInvoice] = useState(null);
   const componentRef = useRef();
-  const handlePrint = useReactToPrint({ contentRef: componentRef });
+  const handlePrint = useReactToPrint({ 
+    contentRef: componentRef,
+    print: async (target) => {
+      const html = target.contentDocument.documentElement.outerHTML;
+      let filename = `Document_${Date.now()}.pdf`;
+      // We can access previewInvoice here because useReactToPrint uses the latest state if we wrap it, 
+      // but wait, previewInvoice might be stale if handlePrint is memoized. 
+      // Actually, previewInvoice is accessed from the component scope.
+      if (previewInvoice) {
+        const isQuote = !!previewInvoice.quoteNo;
+        const docNo = isQuote ? previewInvoice.quoteNo : previewInvoice.invoiceNo;
+        filename = `${isQuote ? 'Quotation' : 'Invoice'}_${docNo ? docNo.replace(/\//g, '-') : Date.now()}.pdf`;
+      }
+      if (window.ipcRenderer) window.ipcRenderer.send('save_pdf_backup', { html, filename });
+      return new Promise((resolve) => {
+        target.contentWindow.print();
+        resolve();
+      });
+    }
+  });
 
   const fetchInvoices = async () => {
     try {

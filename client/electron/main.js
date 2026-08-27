@@ -96,3 +96,56 @@ ipcMain.on('check_for_updates', () => {
   autoUpdater.checkForUpdatesAndNotify()
 })
 
+ipcMain.on('save_pdf_backup', async (event, { html, filename }) => {
+  try {
+    const fs = require('fs');
+    const path = require('path');
+    const os = require('os');
+    
+    const baseDir = 'C:\\Mona Interiors Documents';
+    if (!fs.existsSync(baseDir)) {
+      fs.mkdirSync(baseDir, { recursive: true });
+    }
+    
+    const filePath = path.join(baseDir, filename);
+    const tempHtmlPath = path.join(os.tmpdir(), `temp_print_${Date.now()}.html`);
+    
+    const basePath = process.env.VITE_PUBLIC ? process.env.VITE_PUBLIC.replace(/\\/g, '/') : '';
+    const finalHtml = html.replace(/src="\.\//g, `src="file:///${basePath}/`);
+    
+    // Write HTML to a temp file to avoid data URI size limits
+    fs.writeFileSync(tempHtmlPath, finalHtml);
+
+    const printWin = new BrowserWindow({
+      show: false,
+      webPreferences: {
+        nodeIntegration: false,
+        contextIsolation: true
+      }
+    });
+
+    await printWin.loadFile(tempHtmlPath);
+    
+    // Wait a bit for external resources (like logos) to load
+    setTimeout(async () => {
+      try {
+        const pdfData = await printWin.webContents.printToPDF({
+          printBackground: true,
+          pageSize: 'A4',
+          marginType: 1 // No margin, let CSS handle it
+        });
+        
+        fs.writeFileSync(filePath, pdfData);
+      } catch (e) {
+        console.error('Failed to generate PDF:', e);
+      } finally {
+        if (!printWin.isDestroyed()) printWin.destroy();
+        // Clean up temp file
+        if (fs.existsSync(tempHtmlPath)) fs.unlinkSync(tempHtmlPath);
+      }
+    }, 1500);
+
+  } catch (error) {
+    console.error('Error saving PDF backup:', error);
+  }
+});

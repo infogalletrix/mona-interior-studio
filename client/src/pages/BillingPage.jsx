@@ -451,7 +451,18 @@ export default function BillingPage() {
 
   const componentRef = useRef();
   const descRef = useRef();
-  const handlePrint = useReactToPrint({ contentRef: componentRef });
+  const handlePrint = useReactToPrint({ 
+    contentRef: componentRef,
+    print: async (target) => {
+      const html = target.contentDocument.documentElement.outerHTML;
+      const filename = `Invoice_${invoiceNo ? invoiceNo.replace(/\//g, '-') : Date.now()}.pdf`;
+      if (window.ipcRenderer) window.ipcRenderer.send('save_pdf_backup', { html, filename });
+      return new Promise((resolve) => {
+        target.contentWindow.print();
+        resolve();
+      });
+    }
+  });
 
   const handleItemChange = (id, field, value) => {
     setItems((prevItems) => {

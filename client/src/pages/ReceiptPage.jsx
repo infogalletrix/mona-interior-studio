@@ -123,7 +123,19 @@ export default function ReceiptPage() {
   }, [selectedSiteId, sites]);
 
   const componentRef = useRef();
-  const handlePrintAction = useReactToPrint({ contentRef: componentRef });
+  const handlePrintAction = useReactToPrint({ 
+    contentRef: componentRef,
+    print: async (target) => {
+      const html = target.contentDocument.documentElement.outerHTML;
+      const firstReceipt = printData && printData.length > 0 ? printData[0].receiptNo : Date.now();
+      const filename = `Receipt_${firstReceipt ? firstReceipt.toString().replace(/\//g, '-') : Date.now()}.pdf`;
+      if (window.ipcRenderer) window.ipcRenderer.send('save_pdf_backup', { html, filename });
+      return new Promise((resolve) => {
+        target.contentWindow.print();
+        resolve();
+      });
+    }
+  });
 
   const validateForm = () => {
     if (!formData.siteId) {
