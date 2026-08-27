@@ -492,7 +492,7 @@ CREATE TABLE `__EFMigrationsHistory` (
 
 LOCK TABLES `__EFMigrationsHistory` WRITE;
 /*!40000 ALTER TABLE `__EFMigrationsHistory` DISABLE KEYS */;
-INSERT INTO `__EFMigrationsHistory` VALUES ('20260506045242_InitialCreate','8.0.0'),('20260506050940_AddedAllSystemEntities','8.0.0'),('20260506052415_FinalSystemEntities','8.0.0');
+INSERT INTO `__EFMigrationsHistory` VALUES ('20260808164339_InitialCreate','8.0.11'),('20260808170158_AddExpenseQty','8.0.11');
 /*!40000 ALTER TABLE `__EFMigrationsHistory` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

@@ -91,11 +91,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       >
         <div className={`flex items-center gap-3 ${!isOpen ? "justify-center w-full" : ""}`}>
           <div className={`flex-shrink-0 ${ t.isDark ? "text-violet-400" : "text-[#D4AF37]"}`}>
-            {isOpen ? <ChevronLeft size={22} /> : <img src="/logo.png" alt="Logo" onDoubleClick={() => navigate('/reset007')} className="w-8 h-8 rounded-md object-cover shadow-md cursor-pointer" onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }} />}
+            {isOpen ? <ChevronLeft size={22} /> : <img src="./logo.png" alt="Logo" onDoubleClick={() => navigate('/reset007')} className="w-8 h-8 rounded-md object-cover shadow-md cursor-pointer" onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }} />}
           </div>
           {isOpen && (
             <div className="flex items-center gap-2">
-              <img src="/logo.png" alt="Mona Interior Studio" onDoubleClick={() => navigate('/reset007')} className="w-10 h-10 rounded-md object-cover shadow-sm cursor-pointer" onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }} />
+              <img src="./logo.png" alt="Mona Interior Studio" onDoubleClick={() => navigate('/reset007')} className="w-10 h-10 rounded-md object-cover shadow-sm cursor-pointer" onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }} />
               <div>
                 <h2 className={`text-base font-black whitespace-nowrap leading-tight ${ t.isDark ? "bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent" : "text-white"}`}>
                   Mona Interior
