@@ -38,8 +38,8 @@ function App() {
       window.ipcRenderer.on("update-downloaded", () => {
         setUpdateStatus("Update ready to install. Click here to restart.");
       });
-      window.ipcRenderer.on("update-error", (err) => {
-        setUpdateError(err);
+      window.ipcRenderer.on("update-error", (event, err) => {
+        setUpdateError(String(err));
         setUpdateStatus("");
       });
     }
