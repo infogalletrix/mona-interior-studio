@@ -16,6 +16,16 @@ export default defineConfig({
         entry: "electron/preload.mjs",
         onstart(options) {
           options.reload()
+        },
+        vite: {
+          build: {
+            rollupOptions: {
+              output: {
+                entryFileNames: '[name].mjs',
+                format: 'es'
+              }
+            }
+          }
         }
       },
     ]),

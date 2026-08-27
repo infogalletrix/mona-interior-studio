@@ -1,5 +1,5 @@
 import { contextBridge as e, ipcRenderer as t } from "electron";
-//#region electron/preload.js
+//#region electron/preload.mjs
 e.exposeInMainWorld("ipcRenderer", {
 	on(...e) {
 		let [n, r] = e;

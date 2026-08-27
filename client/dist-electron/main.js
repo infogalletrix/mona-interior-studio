@@ -8442,7 +8442,7 @@ var $;
 function pn() {
 	$ = new t({
 		icon: a.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
-		webPreferences: { preload: a.join(ln, "preload.js") }
+		webPreferences: { preload: a.join(ln, "preload.mjs") }
 	}), $.maximize(), $.webContents.on("did-finish-load", () => {
 		$?.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
 	}), un ? $.loadURL(un) : $.loadFile(a.join(fn, "index.html")), setTimeout(() => {
