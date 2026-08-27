@@ -842,10 +842,7 @@ export default function SitesPage() {
                               {m.type === "image" ? (
                                 <img src={m.url} alt={m.category} className="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90" />
                               ) : (
-                                <>
-                                  <video src={m.url} className="w-full h-full object-cover opacity-60" />
-                                  <PlaySquare size={48} className="absolute text-white/80" />
-                                </>
+                                <video src={m.url} controls className="w-full h-full object-contain bg-black" />
                               )}
                               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
                                 <span className="text-white font-bold text-sm">{m.category}</span>

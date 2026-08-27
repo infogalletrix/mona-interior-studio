@@ -21,7 +21,7 @@ const PrintableQuotation = forwardRef(({ data }, ref) => {
       {/* Header Title */}
       <div className="flex justify-between border-b-2 border-slate-900 pb-6 mb-8 text-left">
         <div className="flex items-center gap-4">
-          <img src="/logo.png" alt="Logo" className="w-20 h-20 object-contain rounded-lg" onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }} />
+          <img src="./logo.png" alt="Logo" className="w-20 h-20 object-contain rounded-lg" onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }} />
           <div>
             <h1 className="text-3xl font-bold text-gray-900 uppercase">Mona Interior Studio</h1>
             <p>Interior Design & Services</p>

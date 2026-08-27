@@ -7,13 +7,13 @@ const PrintableCertificate = forwardRef(({ site }, ref) => {
     <div
       ref={ref}
       className="p-10 bg-white text-black font-sans mx-auto flex flex-col relative"
-      style={{ width: '210mm', height: '297mm' }}
+      style={{ width: '210mm', height: '297mm', overflow: 'hidden', boxSizing: 'border-box' }}
     >
       {/* Header - Letter Pad Style */}
       <div className="flex justify-between border-b-2 border-slate-900 pb-6 mb-8">
         <div className="flex items-center gap-4">
           <img 
-            src="/logo.png" 
+            src="./logo.png" 
             alt="Logo" 
             className="w-20 h-20 object-contain rounded-lg" 
             onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }} 
@@ -65,7 +65,7 @@ const PrintableCertificate = forwardRef(({ site }, ref) => {
       </div>
 
       {/* Footer */}
-      <div className="mt-auto pt-6 border-t border-gray-300 text-center print:fixed print:bottom-8 print:w-full print:left-0">
+      <div className="mt-auto pt-6 border-t border-gray-300 text-center w-full">
         <p className="text-xs text-gray-500 italic font-medium">This is a computer generated document and does not require a physical signature.</p>
       </div>
     </div>

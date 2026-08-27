@@ -333,7 +333,7 @@ export default function ReceiptPage() {
     <div key={data.id || data.receiptNo} className="p-10 bg-white text-slate-900 font-sans border-b-2 border-gray-400 h-[142mm] flex flex-col mx-auto w-[210mm] relative box-border">
       <div className="flex justify-between border-b-2 border-slate-900 pb-6 mb-8">
         <div className="flex items-center gap-4">
-          <img src="/logo.png" alt="Logo" className="w-16 h-16 object-contain rounded-lg" onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }} />
+          <img src="./logo.png" alt="Logo" className="w-16 h-16 object-contain rounded-lg" onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }} />
           <div>
             <h1 className="text-2xl font-black uppercase tracking-tighter text-gray-900">Mona Interior Studio</h1>
             <p className="font-bold text-gray-600 text-[10px]">No.378, Kagithapuram, S.kolathur, Chennai-129</p>
