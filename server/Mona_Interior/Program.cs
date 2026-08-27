@@ -84,9 +84,21 @@ app.MapPost("/api/reset-database", async (string password, MonainteriorDbContext
 
     try
     {
-        await dbContext.Database.EnsureDeletedAsync();
-        await dbContext.Database.MigrateAsync();
-        return Results.Ok(new { message = "Database reset successfully." });
+        var tableNames = dbContext.Model.GetEntityTypes()
+            .Select(t => t.GetTableName())
+            .Where(name => !string.IsNullOrEmpty(name))
+            .Distinct()
+            .ToList();
+
+        var sql = "SET FOREIGN_KEY_CHECKS = 0;\n";
+        foreach (var table in tableNames)
+        {
+            sql += $"TRUNCATE TABLE `{table}`;\n";
+        }
+        sql += "SET FOREIGN_KEY_CHECKS = 1;";
+
+        await dbContext.Database.ExecuteSqlRawAsync(sql);
+        return Results.Ok(new { message = "All data cleared successfully without dropping tables." });
     }
     catch (Exception ex)
     {

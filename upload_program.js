@@ -15,7 +15,7 @@ conn.on('ready', () => {
       if (err) throw err;
       console.log('Upload complete, rebuilding backend container...');
       
-      const cmds = `cd /opt/mona-interior-studio && docker-compose up -d --build backend`;
+      const cmds = `cd /opt/mona-interior-studio && docker-compose build backend && docker rm -f $(docker ps -aq --filter "name=mona_interior_backend") && docker-compose up -d backend`;
       
       conn.exec(cmds, (err, stream) => {
         if (err) throw err;
